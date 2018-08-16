@@ -9,12 +9,24 @@
 import UIKit
 
 class AnnotationTypeViewController: UIViewController {
-
+    
+    
+    
+    @IBOutlet weak var getLocationButtonOutlet: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+        getLocationButtonOutlet.layer.cornerRadius = 4
+        getLocationButtonOutlet.layer.masksToBounds = true
     }
+    
+    @IBAction func cancelButtonAction(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 
     
 

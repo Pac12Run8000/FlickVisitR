@@ -32,6 +32,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="AMg-zh-tnH">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="MOS-EV-YXV"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1sn-Az-r0W">
                             <connections>
                                 <segue destination="wre-di-Uzv" kind="show" id="JoV-eG-N9F"/>
@@ -57,6 +58,7 @@
                         <viewLayoutGuide key="safeArea" id="Ff3-tZ-C4S"/>
                     </view>
                     <navigationItem key="navigationItem" id="9Qn-1q-QhH">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="PAk-Pd-bci"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="jpc-Qv-am8">
                             <connections>
                                 <segue destination="wre-di-Uzv" kind="show" id="snP-xJ-Sle"/>
@@ -68,20 +70,83 @@
             </objects>
             <point key="canvasLocation" x="2095.1999999999998" y="-301.79910044977515"/>
         </scene>
-        <!--Annotation Type View Controller-->
+        <!--Title-->
         <scene sceneID="rOq-oH-hFl">
             <objects>
                 <viewController id="wre-di-Uzv" customClass="AnnotationTypeViewController" customModule="FlickVisitR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Nst-h2-ybX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="complete address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EMd-47-3ns">
+                                <rect key="frame" x="0.0" y="69" width="375" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="YhH-AY-R1d"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xt2-pY-RTe">
+                                <rect key="frame" x="5" y="109" width="365" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="tOy-WI-sAA"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="error: address is malformed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beo-sn-Tjv">
+                                <rect key="frame" x="5" y="144" width="365" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="4Hh-sC-2Mk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.14639261740000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SoT-KB-8BZ">
+                                <rect key="frame" x="10" y="189" width="355" height="35"/>
+                                <color key="backgroundColor" red="0.59819878472222221" green="0.14639261740000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="ktq-AK-Sfz"/>
+                                </constraints>
+                                <state key="normal" title="Get location">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Xad-uy-3l1" firstAttribute="trailing" secondItem="Xt2-pY-RTe" secondAttribute="trailing" constant="5" id="4hG-M1-c8J"/>
+                            <constraint firstItem="SoT-KB-8BZ" firstAttribute="leading" secondItem="Xad-uy-3l1" secondAttribute="leading" constant="10" id="5dz-fc-or4"/>
+                            <constraint firstItem="Xad-uy-3l1" firstAttribute="trailing" secondItem="SoT-KB-8BZ" secondAttribute="trailing" constant="10" id="8Eu-rX-uxV"/>
+                            <constraint firstItem="Xad-uy-3l1" firstAttribute="trailing" secondItem="beo-sn-Tjv" secondAttribute="trailing" constant="5" id="9x0-LZ-AkQ"/>
+                            <constraint firstItem="beo-sn-Tjv" firstAttribute="leading" secondItem="Xad-uy-3l1" secondAttribute="leading" constant="5" id="I6Q-yG-tQV"/>
+                            <constraint firstItem="Xt2-pY-RTe" firstAttribute="leading" secondItem="Xad-uy-3l1" secondAttribute="leading" constant="5" id="Th7-7J-OXp"/>
+                            <constraint firstItem="EMd-47-3ns" firstAttribute="top" secondItem="Xad-uy-3l1" secondAttribute="top" constant="5" id="Vbo-BO-L5T"/>
+                            <constraint firstItem="Xt2-pY-RTe" firstAttribute="top" secondItem="EMd-47-3ns" secondAttribute="bottom" constant="5" id="Weu-2S-0jI"/>
+                            <constraint firstItem="beo-sn-Tjv" firstAttribute="top" secondItem="Xt2-pY-RTe" secondAttribute="bottom" constant="5" id="cvK-A8-lCQ"/>
+                            <constraint firstItem="EMd-47-3ns" firstAttribute="leading" secondItem="Xad-uy-3l1" secondAttribute="leading" id="hcL-zY-3Tl"/>
+                            <constraint firstItem="Xad-uy-3l1" firstAttribute="trailing" secondItem="EMd-47-3ns" secondAttribute="trailing" id="oo3-h2-wI4"/>
+                            <constraint firstItem="SoT-KB-8BZ" firstAttribute="top" secondItem="beo-sn-Tjv" secondAttribute="bottom" constant="10" id="uED-UL-oNT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Xad-uy-3l1"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="7Uf-v1-2Mc">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="mTH-hE-4ev">
+                            <connections>
+                                <action selector="cancelButtonAction:" destination="wre-di-Uzv" id="vFi-gV-tor"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="getLocationButtonOutlet" destination="SoT-KB-8BZ" id="5pB-nG-cM4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gqe-U8-zSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3386" y="-7"/>
+            <point key="canvasLocation" x="3384.8000000000002" y="-7.6461769115442282"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="KHk-XX-kxg">
