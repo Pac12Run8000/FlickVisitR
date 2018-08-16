@@ -8,12 +8,16 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MainMapViewController: UIViewController {
     
     @IBOutlet weak var deleteButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
+    
+    @IBOutlet weak var findLocationOutlet: UIBarButtonItem!
+    
     
     var editButtonOn:Bool = false
     
@@ -22,7 +26,7 @@ class MainMapViewController: UIViewController {
         
         mapView.delegate = self
         gestureRecognizerFunctionality()
-        
+        mapView.backgroundColor = UIColor.blue
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,13 +35,19 @@ class MainMapViewController: UIViewController {
 
     @IBAction func editButtonPressed(_ sender: Any) {
         editButtonOn = !editButtonOn
-        
+        findLocationOutlet.isEnabled = !editButtonOn
         deleteButtonOutlet.isEnabled = !editButtonOn
         editButtonOutlet.title = getEditButtonTitle(IsEditButtonOn: editButtonOn)
+        
     }
     
     func getEditButtonTitle(IsEditButtonOn:Bool) -> String {
         return IsEditButtonOn ? "Done" : "Edit"
+    }
+    
+    
+    @IBAction func findLocationAction(_ sender: Any) {
+        print("Get Location")
     }
     
     
@@ -97,8 +107,18 @@ extension MainMapViewController:MKMapViewDelegate {
         }
         pinView?.animatesDrop = true
         return pinView
-        
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        if let annotation = view.annotation {
+            if (editButtonOn) {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+    }
+    
+
     
     
 }

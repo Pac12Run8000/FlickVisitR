@@ -44,6 +44,11 @@
                                     <action selector="editButtonPressed:" destination="BYZ-38-t0r" id="nbc-cW-Rr6"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="search" id="OjH-fw-xDU">
+                                <connections>
+                                    <action selector="findLocationAction:" destination="BYZ-38-t0r" id="g9Z-Ik-EsC"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1sn-Az-r0W">
                             <connections>
@@ -54,6 +59,7 @@
                     <connections>
                         <outlet property="deleteButtonOutlet" destination="MOS-EV-YXV" id="dm0-PO-xHr"/>
                         <outlet property="editButtonOutlet" destination="59x-EU-zLD" id="BbV-hA-fJO"/>
+                        <outlet property="findLocationOutlet" destination="OjH-fw-xDU" id="3qg-WL-niN"/>
                         <outlet property="mapView" destination="FdX-Ca-HiX" id="UxW-g5-Gu5"/>
                     </connections>
                 </viewController>
