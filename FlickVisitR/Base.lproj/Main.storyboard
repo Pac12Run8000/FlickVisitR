@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,7 +33,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="AMg-zh-tnH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="MOS-EV-YXV"/>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="trash" id="MOS-EV-YXV"/>
+                            <barButtonItem title="Edit" id="59x-EU-zLD">
+                                <connections>
+                                    <action selector="editButtonPressed:" destination="BYZ-38-t0r" id="nbc-cW-Rr6"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1sn-Az-r0W">
                             <connections>
                                 <segue destination="wre-di-Uzv" kind="show" id="JoV-eG-N9F"/>
@@ -40,6 +48,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButtonOutlet" destination="59x-EU-zLD" id="BbV-hA-fJO"/>
                         <outlet property="mapView" destination="FdX-Ca-HiX" id="UxW-g5-Gu5"/>
                     </connections>
                 </viewController>
@@ -206,6 +215,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="snP-xJ-Sle"/>
+        <segue reference="JoV-eG-N9F"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,17 +10,11 @@ import UIKit
 
 class AnnotationTypeViewController: UIViewController {
     
-    
-    
     @IBOutlet weak var getLocationButtonOutlet: UIButton!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getLocationButtonOutlet.layer.cornerRadius = 4
-        getLocationButtonOutlet.layer.masksToBounds = true
+        getLocationButton()
     }
     
     @IBAction func cancelButtonAction(_ sender: Any) {
@@ -30,4 +24,12 @@ class AnnotationTypeViewController: UIViewController {
 
     
 
+}
+
+// MARK: UI layout
+extension AnnotationTypeViewController {
+    func getLocationButton() {
+        getLocationButtonOutlet.layer.cornerRadius = 4
+        getLocationButtonOutlet.layer.masksToBounds = true
+    }
 }

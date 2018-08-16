@@ -11,14 +11,30 @@ import MapKit
 
 class MainMapViewController: UIViewController {
     
+    
+    @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
+    
+    var editButtonOn:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
     }
 
-   
-
+    @IBAction func editButtonPressed(_ sender: Any) {
+        editButtonOn = !editButtonOn
+        editButtonOutlet.title = getEditButtonTitle(IsEditButtonOn: editButtonOn)
+    }
+    
+    func getEditButtonTitle(IsEditButtonOn:Bool) -> String {
+        return IsEditButtonOn ? "Done" : "Edit"
+    }
 }
