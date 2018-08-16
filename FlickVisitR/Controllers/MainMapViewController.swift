@@ -39,10 +39,20 @@ class MainMapViewController: UIViewController {
     func getEditButtonTitle(IsEditButtonOn:Bool) -> String {
         return IsEditButtonOn ? "Done" : "Edit"
     }
+    
+    
+    @IBAction func deleteButtonAction(_ sender: Any) {
+        removeAllPins()
+    }
+    
+
+    
+    
+    
 }
 
 
-// MARK: This is where the mapView pin drop functionality is located
+// MARK: This is where the mapView pin drop and delete functionality is located
 extension MainMapViewController {
     
     // called from ViewDidLoad
@@ -58,14 +68,18 @@ extension MainMapViewController {
             let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            annotation.title = "Dark Horse Fight Club"
-            annotation.subtitle = "Training by invite only"
-            
-            
             self.mapView.addAnnotation(annotation)
         }
     }
+    
+    func removeAllPins() {
+        for annotation in mapView.annotations {
+            mapView.removeAnnotation(annotation)
+        }
+    }
 }
+
+
 
 // MARK: Functions that use the MKMapView protocol
 extension MainMapViewController:MKMapViewDelegate {
@@ -76,7 +90,6 @@ extension MainMapViewController:MKMapViewDelegate {
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView?.canShowCallout = false
-
             pinView?.pinTintColor = .blue
             pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         } else {

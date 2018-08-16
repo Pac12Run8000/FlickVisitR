@@ -34,7 +34,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="AMg-zh-tnH">
                         <leftBarButtonItems>
-                            <barButtonItem systemItem="trash" id="MOS-EV-YXV"/>
+                            <barButtonItem systemItem="trash" id="MOS-EV-YXV">
+                                <connections>
+                                    <action selector="deleteButtonAction:" destination="BYZ-38-t0r" id="FyX-sX-Mhk"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Edit" id="59x-EU-zLD">
                                 <connections>
                                     <action selector="editButtonPressed:" destination="BYZ-38-t0r" id="nbc-cW-Rr6"/>
