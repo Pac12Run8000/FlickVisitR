@@ -11,7 +11,7 @@ import MapKit
 
 class MainMapViewController: UIViewController {
     
-    
+    @IBOutlet weak var deleteButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     
@@ -26,11 +26,12 @@ class MainMapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
         editButtonOn = !editButtonOn
+        
+        deleteButtonOutlet.isEnabled = !editButtonOn
         editButtonOutlet.title = getEditButtonTitle(IsEditButtonOn: editButtonOn)
     }
     

@@ -48,6 +48,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteButtonOutlet" destination="MOS-EV-YXV" id="dm0-PO-xHr"/>
                         <outlet property="editButtonOutlet" destination="59x-EU-zLD" id="BbV-hA-fJO"/>
                         <outlet property="mapView" destination="FdX-Ca-HiX" id="UxW-g5-Gu5"/>
                     </connections>
