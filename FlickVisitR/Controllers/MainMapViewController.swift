@@ -78,7 +78,10 @@ extension MainMapViewController {
             let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            self.mapView.addAnnotation(annotation)
+            // Edit state has to be off
+            if !editButtonOn {
+                self.mapView.addAnnotation(annotation)
+            }
         }
     }
     
