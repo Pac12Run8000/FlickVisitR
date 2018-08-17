@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainMapViewController: UIViewController {
+class MainMapViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var deleteButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
@@ -20,14 +20,41 @@ class MainMapViewController: UIViewController {
     
     
     var editButtonOn:Bool = false
+    let locationManager = CLLocationManager()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         gestureRecognizerFunctionality()
-        mapView.backgroundColor = UIColor.blue
+        
+        
+        locationManager.requestWhenInUseAuthorization()
+        if (CLLocationManager.locationServicesEnabled()) {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        }
+        
+        
     }
+    
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let userLocation = locations[0] as CLLocation
+        locationManager.stopUpdatingLocation()
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = userLocation.coordinate
+        mapView.addAnnotation(annotation)
+
+
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -47,7 +74,12 @@ class MainMapViewController: UIViewController {
     
     
     @IBAction func findLocationAction(_ sender: Any) {
-        print("Get Location")
+        locationManager.startUpdatingLocation()
+        
+        
+       
+        
+        
     }
     
     
