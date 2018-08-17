@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainMapViewController: UIViewController, CLLocationManagerDelegate {
+class MainMapViewController: UIViewController {
     
     @IBOutlet weak var deleteButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
@@ -22,39 +22,15 @@ class MainMapViewController: UIViewController, CLLocationManagerDelegate {
     var editButtonOn:Bool = false
     let locationManager = CLLocationManager()
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         gestureRecognizerFunctionality()
-        
-        
-        locationManager.requestWhenInUseAuthorization()
-        if (CLLocationManager.locationServicesEnabled()) {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        }
-        
+        // MARK: As the name states, this function sets up retrieveing the coordinates based on userlocation.
+        getCoordinatesBasedOnUsersLocation()
         
     }
-    
-    
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        let userLocation = locations[0] as CLLocation
-        locationManager.stopUpdatingLocation()
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = userLocation.coordinate
-        mapView.addAnnotation(annotation)
-
-
-    }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -65,7 +41,14 @@ class MainMapViewController: UIViewController, CLLocationManagerDelegate {
         findLocationOutlet.isEnabled = !editButtonOn
         deleteButtonOutlet.isEnabled = !editButtonOn
         editButtonOutlet.title = getEditButtonTitle(IsEditButtonOn: editButtonOn)
-        
+    }
+    
+    func getCoordinatesBasedOnUsersLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        if (CLLocationManager.locationServicesEnabled()) {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        }
     }
     
     func getEditButtonTitle(IsEditButtonOn:Bool) -> String {
@@ -75,22 +58,12 @@ class MainMapViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func findLocationAction(_ sender: Any) {
         locationManager.startUpdatingLocation()
-        
-        
-       
-        
-        
     }
     
     
     @IBAction func deleteButtonAction(_ sender: Any) {
         removeAllPins()
     }
-    
-
-    
-    
-    
 }
 
 
@@ -152,8 +125,21 @@ extension MainMapViewController:MKMapViewDelegate {
             }
         }
     }
-    
+}
 
+
+// MARK: This is the functionality responsible for adding a pin based on the users current location
+extension MainMapViewController: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let userLocation = locations[0] as CLLocation
+        locationManager.stopUpdatingLocation()
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = userLocation.coordinate
+        mapView.addAnnotation(annotation)
+        
+        
+    }
     
 }
