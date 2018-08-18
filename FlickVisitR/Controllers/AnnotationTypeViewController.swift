@@ -10,26 +10,54 @@ import UIKit
 
 class AnnotationTypeViewController: UIViewController {
     
-    @IBOutlet weak var getLocationButtonOutlet: UIButton!
+    
+    
+    @IBOutlet weak var addressTextFieldOutlet: UITextField!
+    @IBOutlet weak var errorLabelOutlet: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getLocationButton()
+        
+        addressTextFieldOutlet.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addressTextFieldOutlet.becomeFirstResponder()
+        
     }
     
     @IBAction func cancelButtonAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
 
     
-
+    
 }
 
-// MARK: UI layout
-extension AnnotationTypeViewController {
-    func getLocationButton() {
-        getLocationButtonOutlet.layer.cornerRadius = 4
-        getLocationButtonOutlet.layer.masksToBounds = true
+extension AnnotationTypeViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        addressTextFieldOutlet.resignFirstResponder()
+        return true
+    }
+    
+    
+    
+    
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+
+        if (textField.text == "1810") {
+            errorLabelOutlet.text = "There was an error"
+            return
+        } else {
+            errorLabelOutlet.text = ""
+            navigationController?.popViewController(animated: true)
+        }
+       
     }
 }
+
+
