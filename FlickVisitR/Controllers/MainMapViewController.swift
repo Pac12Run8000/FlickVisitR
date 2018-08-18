@@ -142,4 +142,27 @@ extension MainMapViewController: CLLocationManagerDelegate {
         
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error:\(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.denied {
+            showLocationDisabledPopUp()
+        }
+    }
+    
+    func showLocationDisabledPopUp() {
+        let alertController = UIAlertController(title: "user location access disabled", message: "The app needs access to your user location info", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        let openAction = UIAlertAction(title: "Open settings", style: .default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertController.addAction(openAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
