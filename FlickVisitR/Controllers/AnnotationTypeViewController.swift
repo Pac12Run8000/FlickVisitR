@@ -19,6 +19,7 @@ class AnnotationTypeViewController: UIViewController {
         super.viewDidLoad()
         
         addressTextFieldOutlet.delegate = self
+        configureTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +31,11 @@ class AnnotationTypeViewController: UIViewController {
     @IBAction func cancelButtonAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
+    
+    func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignResponderOnTap))
+        view.addGestureRecognizer(tapGesture)
+    }
 
     
     
@@ -38,26 +44,26 @@ class AnnotationTypeViewController: UIViewController {
 extension AnnotationTypeViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         addressTextFieldOutlet.resignFirstResponder()
+        shouldPopViewController(textField)
+        
         return true
     }
     
+    @objc func resignResponderOnTap() {
+        view.endEditing(true)
+    }
     
-    
-    
-    
-    
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-
+    func shouldPopViewController(_ textField:UITextField) {
         if (textField.text == "1810") {
             errorLabelOutlet.text = "There was an error"
-            return
         } else {
             errorLabelOutlet.text = ""
             navigationController?.popViewController(animated: true)
         }
-       
     }
+
 }
 
 
