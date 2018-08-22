@@ -10,7 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainMapViewController: UIViewController {
+class MainMapViewController: UIViewController, AnnotationTypeViewControllerDelegate {
+    func annotationTypeViewController(_ controller: AnnotationTypeViewController, didFinishAdding item: CLLocationCoordinate2D) {
+        print("lat:\(item.latitude), long:\(item.longitude)")
+    }
+    
     
     @IBOutlet weak var deleteButtonOutlet: UIBarButtonItem!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
@@ -64,6 +68,31 @@ class MainMapViewController: UIViewController {
     @IBAction func deleteButtonAction(_ sender: Any) {
         removeAllPins()
     }
+}
+// MARK: This is where we prepare for segue
+extension MainMapViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addressToCoordinate" {
+            let controller = segue.destination as! AnnotationTypeViewController
+            controller.annotationTypeDelegate = self
+            
+        }
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "AddTableView" {
+//            let controller = segue.destination as! MemeGeneratorViewController
+//            controller.memeGeneratorDelegate = self
+//        } else if segue.identifier == "EditTableView" {
+//            let controller = segue.destination as! MemeGeneratorViewController
+//            controller.memeGeneratorDelegate = self
+//            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+//                controller.memeToEdit = CoreDataStack.sharedInstance().memeObjArray[indexPath.row]
+//            }
+//        }
+//    }
+    
 }
 
 

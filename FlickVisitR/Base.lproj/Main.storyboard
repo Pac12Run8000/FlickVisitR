@@ -52,7 +52,7 @@
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1sn-Az-r0W">
                             <connections>
-                                <segue destination="wre-di-Uzv" kind="show" id="JoV-eG-N9F"/>
+                                <segue destination="wre-di-Uzv" kind="show" identifier="addressToCoordinate" id="JoV-eG-N9F"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -113,13 +113,13 @@
                                     <constraint firstAttribute="height" constant="30" id="tOy-WI-sAA"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beo-sn-Tjv">
-                                <rect key="frame" x="5" y="144" width="365" height="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beo-sn-Tjv">
+                                <rect key="frame" x="5" y="144" width="365" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="4Hh-sC-2Mk"/>
+                                    <constraint firstAttribute="height" constant="75" id="4Hh-sC-2Mk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.14639261740000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
