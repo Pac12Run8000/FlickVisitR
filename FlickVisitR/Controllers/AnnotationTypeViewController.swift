@@ -9,14 +9,7 @@
 import UIKit
 import MapKit
 
-//protocol MemeGeneratorViewControllerDelegate:class {
-//
-//    func memeGeneratorViewControllerDidCancel(_ controller:MemeGeneratorViewController)
-//    func memeGeneratorViewController(_ controller:MemeGeneratorViewController, didFinishAdding item:(topText: String, bottomText: String, originalImage: NSData, memedImage: NSData))
-//    func memeGeneratorViewController(_ controller:MemeGeneratorViewController, didFinishEditing item:MemeObj)
-//
-//}
-
+// MARK: This is the protocol used to pass the data to the controller
 protocol AnnotationTypeViewControllerDelegate:class {
     func annotationTypeViewController(_ controller:AnnotationTypeViewController, didFinishAdding item:CLLocationCoordinate2D)
 }
@@ -41,7 +34,6 @@ class AnnotationTypeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addressTextFieldOutlet.becomeFirstResponder()
-        
     }
     
     @IBAction func cancelButtonAction(_ sender: Any) {
@@ -52,9 +44,6 @@ class AnnotationTypeViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignResponderOnTap))
         view.addGestureRecognizer(tapGesture)
     }
-
-    
-    
 }
 
 extension AnnotationTypeViewController: UITextFieldDelegate {
@@ -73,7 +62,7 @@ extension AnnotationTypeViewController: UITextFieldDelegate {
     
     func shouldPopViewController(_ textField:UITextField) {
 
-        
+        // MARK:Unwrapping the address string from the textField
         if let address = addressTextFieldOutlet.text {
             geocoder.geocodeAddressString(address) { (placemarks, error) in
                 
@@ -91,21 +80,13 @@ extension AnnotationTypeViewController: UITextFieldDelegate {
                     
                     self.coordinate = location.coordinate
                     self.annotationTypeDelegate?.annotationTypeViewController(self, didFinishAdding: self.coordinate)
+                    //MARK: Returns to MainMapViewController
                     self.navigationController?.popViewController(animated: true)
-                    
                 }
                 
             
             }
         }
-        
-        
-//        if (textField.text == "1810") {
-//            errorLabelOutlet.text = "There was an error"
-//        } else {
-//            errorLabelOutlet.text = ""
-//            navigationController?.popViewController(animated: true)
-//        }
     }
 
 }

@@ -11,8 +11,12 @@ import MapKit
 import CoreLocation
 
 class MainMapViewController: UIViewController, AnnotationTypeViewControllerDelegate {
+    
+    //MARK: The delegate method adds the new annotation to the map.
     func annotationTypeViewController(_ controller: AnnotationTypeViewController, didFinishAdding item: CLLocationCoordinate2D) {
-        print("lat:\(item.latitude), long:\(item.longitude)")
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = item
+        mapView.addAnnotation(annotation)
     }
     
     
@@ -79,20 +83,6 @@ extension MainMapViewController {
             
         }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "AddTableView" {
-//            let controller = segue.destination as! MemeGeneratorViewController
-//            controller.memeGeneratorDelegate = self
-//        } else if segue.identifier == "EditTableView" {
-//            let controller = segue.destination as! MemeGeneratorViewController
-//            controller.memeGeneratorDelegate = self
-//            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
-//                controller.memeToEdit = CoreDataStack.sharedInstance().memeObjArray[indexPath.row]
-//            }
-//        }
-//    }
-    
 }
 
 
