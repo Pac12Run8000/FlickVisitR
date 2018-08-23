@@ -14,6 +14,10 @@
 		091DE0272124A9AA00A01AC0 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE0262124A9AA00A01AC0 /* MainMapViewController.swift */; };
 		091DE0292124AA7D00A01AC0 /* AnnotationTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE0282124AA7D00A01AC0 /* AnnotationTypeViewController.swift */; };
 		091DE02B2124AC9300A01AC0 /* LocationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE02A2124AC9300A01AC0 /* LocationListViewController.swift */; };
+		091DE02F212D7BA200A01AC0 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 091DE02D212D7BA200A01AC0 /* Model.xcdatamodeld */; };
+		091DE032212D8FD500A01AC0 /* PinAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE031212D8FD500A01AC0 /* PinAnnotation+Extensions.swift */; };
+		091DE034212D953600A01AC0 /* PinImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE033212D953600A01AC0 /* PinImage+Extension.swift */; };
+		091DE036212D98F800A01AC0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE035212D98F800A01AC0 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		091DE0262124A9AA00A01AC0 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
 		091DE0282124AA7D00A01AC0 /* AnnotationTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationTypeViewController.swift; sourceTree = "<group>"; };
 		091DE02A2124AC9300A01AC0 /* LocationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewController.swift; sourceTree = "<group>"; };
+		091DE02E212D7BA200A01AC0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		091DE031212D8FD500A01AC0 /* PinAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinAnnotation+Extensions.swift"; sourceTree = "<group>"; };
+		091DE033212D953600A01AC0 /* PinImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinImage+Extension.swift"; sourceTree = "<group>"; };
+		091DE035212D98F800A01AC0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,7 @@
 		091DE0122124A95C00A01AC0 /* FlickVisitR */ = {
 			isa = PBXGroup;
 			children = (
+				091DE02C212D7B8800A01AC0 /* Model */,
 				091DE0252124A98300A01AC0 /* Controllers */,
 				091DE0132124A95C00A01AC0 /* AppDelegate.swift */,
 				091DE0172124A95C00A01AC0 /* Main.storyboard */,
@@ -76,6 +85,25 @@
 				091DE02A2124AC9300A01AC0 /* LocationListViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		091DE02C212D7B8800A01AC0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				091DE030212D8F3900A01AC0 /* Managed Object Extensions */,
+				091DE02D212D7BA200A01AC0 /* Model.xcdatamodeld */,
+				091DE035212D98F800A01AC0 /* CoreDataStack.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		091DE030212D8F3900A01AC0 /* Managed Object Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				091DE031212D8FD500A01AC0 /* PinAnnotation+Extensions.swift */,
+				091DE033212D953600A01AC0 /* PinImage+Extension.swift */,
+			);
+			path = "Managed Object Extensions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,8 +179,12 @@
 			files = (
 				091DE0272124A9AA00A01AC0 /* MainMapViewController.swift in Sources */,
 				091DE0142124A95C00A01AC0 /* AppDelegate.swift in Sources */,
+				091DE02F212D7BA200A01AC0 /* Model.xcdatamodeld in Sources */,
 				091DE02B2124AC9300A01AC0 /* LocationListViewController.swift in Sources */,
+				091DE032212D8FD500A01AC0 /* PinAnnotation+Extensions.swift in Sources */,
 				091DE0292124AA7D00A01AC0 /* AnnotationTypeViewController.swift in Sources */,
+				091DE034212D953600A01AC0 /* PinImage+Extension.swift in Sources */,
+				091DE036212D98F800A01AC0 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +382,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		091DE02D212D7BA200A01AC0 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				091DE02E212D7BA200A01AC0 /* Model.xcdatamodel */,
+			);
+			currentVersion = 091DE02E212D7BA200A01AC0 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 091DE0082124A95C00A01AC0 /* Project object */;
 }

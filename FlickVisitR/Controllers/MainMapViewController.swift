@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class MainMapViewController: UIViewController, AnnotationTypeViewControllerDelegate {
     
@@ -26,6 +27,7 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     @IBOutlet weak var findLocationOutlet: UIBarButtonItem!
     
+    let delegate = UIApplication.shared.delegate as! AppDelegate
     
     var editButtonOn:Bool = false
     let locationManager = CLLocationManager()
@@ -38,10 +40,31 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         // MARK: As the name states, this function sets up retrieveing the coordinates based on userlocation.
         getCoordinatesBasedOnUsersLocation()
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
+        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDesc]
+        
+        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
+            for item in result {
+                print("lat:\(item.lat),long:\(item.long), creationDate:\(item.creationDate)")
+            }
+        }
+        
+//        let fetchRequest:NSFetchRequest<MemeObj> = MemeObj.fetchRequest()
+//        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
+//        fetchRequest.sortDescriptors = [sortDesc]
+//
+//        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
+//            CoreDataStack.sharedInstance().memeObjArray = result
+//            tableView.reloadData()
+//        }
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -104,6 +127,17 @@ extension MainMapViewController {
             annotation.coordinate = coordinate
             // Edit state has to be off
             if !editButtonOn {
+                
+                var addAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
+                addAnnotation.lat = annotation.coordinate.latitude
+                addAnnotation.long = annotation.coordinate.longitude
+                do {
+                try delegate.coreDataStack.viewContext.save()
+                    print("Saved!!!!!")
+                } catch {
+                    print("error:\(error.localizedDescription)")
+                }
+                
                 self.mapView.addAnnotation(annotation)
             }
         }
