@@ -40,6 +40,14 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         // MARK: As the name states, this function sets up retrieveing the coordinates based on userlocation.
         getCoordinatesBasedOnUsersLocation()
         
+        // MARK: This is for the batch deletion of PinAnnotation
+//        batchDeletePinAnnotation()
+        
+        // MARK: This is for batch deletion of PinImage
+//        batchDeletePinImage()
+        
+        
+        
         
         
     }
@@ -53,18 +61,11 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         
         if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
             for item in result {
-                print("lat:\(item.lat),long:\(item.long), creationDate:\(item.creationDate)")
+                print("lat:\(item.lat),long:\(item.long), creationDate:\(String(describing: item.creationDate))")
             }
         }
         
-//        let fetchRequest:NSFetchRequest<MemeObj> = MemeObj.fetchRequest()
-//        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
-//        fetchRequest.sortDescriptors = [sortDesc]
-//
-//        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
-//            CoreDataStack.sharedInstance().memeObjArray = result
-//            tableView.reloadData()
-//        }
+
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -218,4 +219,28 @@ extension MainMapViewController: CLLocationManagerDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
+}
+// MARK: These are the batch delete functions from CoreData
+extension MainMapViewController {
+    
+    func batchDeletePinAnnotation() {
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            let _ = try delegate.coreDataStack.viewContext.execute(request)
+        } catch {
+            print("error:\(error.localizedDescription)")
+        }
+    }
+    
+    func batchDeletePinImage() {
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinImage")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            let _ = try delegate.coreDataStack.viewContext.execute(request)
+        } catch {
+            print("error:\(error.localizedDescription)")
+        }
+    }
+   
 }

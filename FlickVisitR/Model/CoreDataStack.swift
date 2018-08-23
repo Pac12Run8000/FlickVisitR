@@ -30,9 +30,6 @@ class CoreDataStack {
         }
     }
     
-    
-    
-    
     var pinAnnotationArray = [PinAnnotation]()
     
     var pinImageArray = [PinImage]()
