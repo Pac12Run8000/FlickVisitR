@@ -46,6 +46,10 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         // MARK: This is for batch deletion of PinImage
 //        batchDeletePinImage()
         
+        // MARK: Populate the variable pinAnnotationArray:[PinAnnotation] in CoreDataStack
+        retrievePinAnnotationsFromCoreDataAndAddToMapView()
+        
+       
         
         
         
@@ -128,17 +132,7 @@ extension MainMapViewController {
             annotation.coordinate = coordinate
             // Edit state has to be off
             if !editButtonOn {
-                
-                var addAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
-                addAnnotation.lat = annotation.coordinate.latitude
-                addAnnotation.long = annotation.coordinate.longitude
-                do {
-                try delegate.coreDataStack.viewContext.save()
-                    print("Saved!!!!!")
-                } catch {
-                    print("error:\(error.localizedDescription)")
-                }
-                
+                saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext, annotation: annotation)
                 self.mapView.addAnnotation(annotation)
             }
         }
@@ -242,5 +236,38 @@ extension MainMapViewController {
             print("error:\(error.localizedDescription)")
         }
     }
-   
+}
+
+// MARK: Handles CoreData processing
+extension MainMapViewController {
+    
+    
+    func retrievePinAnnotationsFromCoreDataAndAddToMapView() {
+        let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
+        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDesc]
+        
+        if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
+            CoreDataStack.sharedInstance().pinAnnotationArray = results
+            
+            for result in results {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate.latitude = result.lat
+                annotation.coordinate.longitude = result.long
+                self.mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    func saveChangesToManagedObjectContext(context:NSManagedObjectContext, annotation:MKPointAnnotation) {
+        let addAnnotation = PinAnnotation(context: context)
+        addAnnotation.lat = annotation.coordinate.latitude
+        addAnnotation.long = annotation.coordinate.longitude
+        do {
+            try context.save()
+            print("Saved!!!!!")
+        } catch {
+            print("error:\(error.localizedDescription)")
+        }
+    }
 }
