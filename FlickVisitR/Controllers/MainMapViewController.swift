@@ -58,18 +58,15 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
-        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
-        fetchRequest.sortDescriptors = [sortDesc]
-        
-        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
-            for item in result {
-                print("lat:\(item.lat),long:\(item.long), creationDate:\(String(describing: item.creationDate))")
-            }
-        }
-        
-
+//        let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
+//        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
+//        fetchRequest.sortDescriptors = [sortDesc]
+//
+//        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
+//            for item in result {
+//                print("lat:\(item.lat),long:\(item.long), creationDate:\(String(describing: item.creationDate))")
+//            }
+//        }
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -98,6 +95,7 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     
     @IBAction func deleteButtonAction(_ sender: Any) {
+        batchDeletePinAnnotation()
         removeAllPins()
     }
 }
@@ -132,7 +130,10 @@ extension MainMapViewController {
             annotation.coordinate = coordinate
             // Edit state has to be off
             if !editButtonOn {
-                saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext, annotation: annotation)
+                let addAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
+                addAnnotation.lat = annotation.coordinate.latitude
+                addAnnotation.long = annotation.coordinate.longitude
+                saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
                 self.mapView.addAnnotation(annotation)
             }
         }
@@ -169,6 +170,7 @@ extension MainMapViewController:MKMapViewDelegate {
         mapView.deselectAnnotation(view.annotation, animated: true)
         if let annotation = view.annotation {
             if (editButtonOn) {
+                deletePinAnnotationFromCoreData(annotation)
                 self.mapView.removeAnnotation(annotation)
             }
         }
@@ -241,6 +243,21 @@ extension MainMapViewController {
 // MARK: Handles CoreData processing
 extension MainMapViewController {
     
+    func deletePinAnnotationFromCoreData(_ annotation:MKAnnotation) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
+        fetchRequest.predicate = pred
+        
+        if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
+            for result in results {
+                delegate.coreDataStack.viewContext.delete(result as! NSManagedObject)
+            }
+            // MARK: The functionality saves the NSManagedObjectContext
+            saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
+        }
+    }
+    
     
     func retrievePinAnnotationsFromCoreDataAndAddToMapView() {
         let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
@@ -259,10 +276,7 @@ extension MainMapViewController {
         }
     }
     
-    func saveChangesToManagedObjectContext(context:NSManagedObjectContext, annotation:MKPointAnnotation) {
-        let addAnnotation = PinAnnotation(context: context)
-        addAnnotation.lat = annotation.coordinate.latitude
-        addAnnotation.long = annotation.coordinate.longitude
+    func saveChangesToManagedObjectContext(context:NSManagedObjectContext) {
         do {
             try context.save()
             print("Saved!!!!!")
