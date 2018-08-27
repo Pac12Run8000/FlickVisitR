@@ -101,11 +101,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="9Qn-1q-QhH">
                         <barButtonItem key="leftBarButtonItem" systemItem="trash" id="PAk-Pd-bci"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jpc-Qv-am8">
-                            <connections>
-                                <segue destination="wre-di-Uzv" kind="show" id="snP-xJ-Sle"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JJn-ia-PDu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -235,7 +230,4 @@
             <point key="canvasLocation" x="1156" y="-301.79910044977515"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="snP-xJ-Sle"/>
-    </inferredMetricsTieBreakers>
 </document>
