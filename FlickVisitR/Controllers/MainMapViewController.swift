@@ -64,15 +64,7 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
-//        let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
-//        fetchRequest.sortDescriptors = [sortDesc]
-//
-//        if let result = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
-//            for item in result {
-//                print("lat:\(item.lat),long:\(item.long), creationDate:\(String(describing: item.creationDate))")
-//            }
-//        }
+
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -243,13 +235,15 @@ extension MainMapViewController {
         }
     }
     
-    func batchDeletePinImage() {
+    func batchDeletePinImage(completionHandler: @escaping (_ sucess:Bool?) -> ()) {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinImage")
         let request = NSBatchDeleteRequest(fetchRequest: fetch)
         do {
             let _ = try delegate.coreDataStack.viewContext.execute(request)
+            completionHandler(true)
         } catch {
             print("error:\(error.localizedDescription)")
+            completionHandler(false)
         }
     }
 }
