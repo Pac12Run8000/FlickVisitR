@@ -46,20 +46,22 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         // MARK: As the name states, this function sets up retrieveing the coordinates based on userlocation.
         getCoordinatesBasedOnUsersLocation()
         
+        // MARK: Populate the variable pinAnnotationArray:[PinAnnotation] in CoreDataStack
+        // MARK: Populates the Map with PinAnnotations
+        retrievePinAnnotationsFromCoreDataAndAddToMapView()
+        
         // MARK: This is for the batch deletion of PinAnnotation
 //        batchDeletePinAnnotation()
         
         // MARK: This is for batch deletion of PinImage
 //        batchDeletePinImage()
         
-        // MARK: Populate the variable pinAnnotationArray:[PinAnnotation] in CoreDataStack
-        // MARK: Populates the Map with PinAnnotations
-        retrievePinAnnotationsFromCoreDataAndAddToMapView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -130,6 +132,9 @@ extension MainMapViewController {
                 addAnnotation.lat = annotation.coordinate.latitude
                 addAnnotation.long = annotation.coordinate.longitude
                 saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
+                // MARK: adds the annotation to the pinAnnotationArray
+                CoreDataStack.sharedInstance().pinAnnotationArray.append(addAnnotation)
+                // MARK: adds annotation to mapView
                 self.mapView.addAnnotation(annotation)
             }
         }
@@ -166,7 +171,26 @@ extension MainMapViewController:MKMapViewDelegate {
         mapView.deselectAnnotation(view.annotation, animated: true)
         if let annotation = view.annotation {
             if (editButtonOn) {
+                
+                getPinAnnotationFromMKAnnotation(annotation) { (success, pin) in
+                    if (success)! {
+                        let index = CoreDataStack.sharedInstance().pinAnnotationArray.index(where: { (item) -> Bool in
+                            item == pin 
+                        })
+                        if let index = index {
+                            CoreDataStack.sharedInstance().pinAnnotationArray.remove(at: index)
+                        }
+                    }
+                }
+                
+                // MARK: Deletes PinAnnotation from CoreData
                 deletePinAnnotationFromCoreData(annotation)
+                
+                
+                
+                
+                
+                // MARK: Deletes PinAnnotation from MapView
                 self.mapView.removeAnnotation(annotation)
             }
         }
@@ -244,6 +268,20 @@ extension MainMapViewController {
 // MARK: Handles CoreData processing
 extension MainMapViewController {
     
+    func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:PinAnnotation?) -> ()) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
+        fetchRequest.predicate = pred
+        
+        if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) as? [PinAnnotation] {
+//            print("PinAnnotation:lat:\(results?.first?.lat), long:\(results?.first?.long)")
+            completion(true, results?.first)
+        }
+        completion(false, nil)
+//        print("lat:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
+    }
+    
     func deletePinAnnotationFromCoreData(_ annotation:MKAnnotation) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -269,7 +307,7 @@ extension MainMapViewController {
         if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
             CoreDataStack.sharedInstance().pinAnnotationArray = results
             
-            for result in results {
+            for result in CoreDataStack.sharedInstance().pinAnnotationArray {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate.latitude = result.lat
                 annotation.coordinate.longitude = result.long
@@ -281,11 +319,12 @@ extension MainMapViewController {
     func saveChangesToManagedObjectContext(context:NSManagedObjectContext) {
         do {
             try context.save()
-            print("Saved!!!!!")
         } catch {
             print("error:\(error.localizedDescription)")
         }
     }
 }
+
+
 
 
