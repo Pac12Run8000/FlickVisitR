@@ -21,8 +21,13 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         let pinAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
         pinAnnotation.lat = annotation.coordinate.latitude
         pinAnnotation.long = annotation.coordinate.longitude
+        
+        // MARK: Add PinAnnotation to shared array: PinAnnotationArray
+        addPinAnnotationToSharedArray(pinAnnotation: pinAnnotation)
+        
         // MARK: Changes Managed object context are being saved 
         saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
+        
         mapView.addAnnotation(annotation)
     }
     
@@ -90,8 +95,9 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     
     @IBAction func deleteButtonAction(_ sender: Any) {
-        batchDeletePinAnnotation { (success) in
+        batchDeletePinAnnotationFromCoreData { (success) in
             if success! {
+                self.removeAllPinAnnotations()
                 self.removeAllPins()
             }
         }
@@ -133,7 +139,7 @@ extension MainMapViewController {
                 addAnnotation.long = annotation.coordinate.longitude
                 saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
                 // MARK: adds the annotation to the pinAnnotationArray
-                CoreDataStack.sharedInstance().pinAnnotationArray.append(addAnnotation)
+                addPinAnnotationToSharedArray(pinAnnotation: addAnnotation)
                 // MARK: adds annotation to mapView
                 self.mapView.addAnnotation(annotation)
             }
@@ -144,6 +150,27 @@ extension MainMapViewController {
         for annotation in mapView.annotations {
             mapView.removeAnnotation(annotation)
         }
+    }
+}
+// MARK: Handle CoreDataStack.sharedInstance().pinAnnotationArray functionality
+extension MainMapViewController {
+    
+    func removeAllPinAnnotations() {
+        CoreDataStack.sharedInstance().pinAnnotationArray.removeAll()
+    }
+    
+    // MARK: Gets the index of the item from the array and then deletes it.
+    func deletePinAnnotationFromPinAnnotationArray(pin:PinAnnotation?) {
+        let index = CoreDataStack.sharedInstance().pinAnnotationArray.index(where: { (item) -> Bool in
+            item == pin
+        })
+        if let index = index {
+            CoreDataStack.sharedInstance().pinAnnotationArray.remove(at: index)
+        }
+    }
+    
+    func addPinAnnotationToSharedArray(pinAnnotation:PinAnnotation) {
+        CoreDataStack.sharedInstance().pinAnnotationArray.append(pinAnnotation)
     }
 }
 
@@ -171,24 +198,15 @@ extension MainMapViewController:MKMapViewDelegate {
         mapView.deselectAnnotation(view.annotation, animated: true)
         if let annotation = view.annotation {
             if (editButtonOn) {
-                
+                // MARK: Gets the MKAnnotation from the map, does a fetch on CoreData and returns the PinAnnotation
                 getPinAnnotationFromMKAnnotation(annotation) { (success, pin) in
                     if (success)! {
-                        let index = CoreDataStack.sharedInstance().pinAnnotationArray.index(where: { (item) -> Bool in
-                            item == pin 
-                        })
-                        if let index = index {
-                            CoreDataStack.sharedInstance().pinAnnotationArray.remove(at: index)
-                        }
+                        // MARK: Deletes the pinAnnotation from the shared PinnAnnotationArray.
+                        self.deletePinAnnotationFromPinAnnotationArray(pin: pin)
                     }
                 }
-                
                 // MARK: Deletes PinAnnotation from CoreData
                 deletePinAnnotationFromCoreData(annotation)
-                
-                
-                
-                
                 
                 // MARK: Deletes PinAnnotation from MapView
                 self.mapView.removeAnnotation(annotation)
@@ -240,7 +258,7 @@ extension MainMapViewController: CLLocationManagerDelegate {
 extension MainMapViewController {
     
     
-    func batchDeletePinAnnotation(completionHandler:@escaping (_ success:Bool?) -> ()) {
+    func batchDeletePinAnnotationFromCoreData(completionHandler:@escaping (_ success:Bool?) -> ()) {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
         let request = NSBatchDeleteRequest(fetchRequest: fetch)
         do {
@@ -270,7 +288,7 @@ extension MainMapViewController {
     
     func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:PinAnnotation?) -> ()) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
         fetchRequest.predicate = pred
         
@@ -284,7 +302,7 @@ extension MainMapViewController {
     
     func deletePinAnnotationFromCoreData(_ annotation:MKAnnotation) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
         fetchRequest.predicate = pred
         

@@ -17,8 +17,9 @@ class LocationListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("*******\n")
         for item in CoreDataStack.sharedInstance().pinAnnotationArray {
+            
             print("item lat:\(item.lat), long:\(item.long)")
         }
     }
