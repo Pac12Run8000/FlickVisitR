@@ -17,6 +17,12 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     func annotationTypeViewController(_ controller: AnnotationTypeViewController, didFinishAdding item: CLLocationCoordinate2D) {
         let annotation = MKPointAnnotation()
         annotation.coordinate = item
+        // MARK: Adding latitude and longitude to CoreData
+        let pinAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
+        pinAnnotation.lat = annotation.coordinate.latitude
+        pinAnnotation.long = annotation.coordinate.longitude
+        // MARK: Changes Managed object context are being saved 
+        saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
         mapView.addAnnotation(annotation)
     }
     
