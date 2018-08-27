@@ -101,8 +101,11 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     
     
     @IBAction func deleteButtonAction(_ sender: Any) {
-        batchDeletePinAnnotation()
-        removeAllPins()
+        batchDeletePinAnnotation { (success) in
+            if success! {
+                self.removeAllPins()
+            }
+        }
     }
 }
 // MARK: This is where we prepare for segue
@@ -225,13 +228,18 @@ extension MainMapViewController: CLLocationManagerDelegate {
 // MARK: These are the batch delete functions from CoreData
 extension MainMapViewController {
     
-    func batchDeletePinAnnotation() {
+//    completionHandlerForGetPhotosTask: @escaping (_ data: Data?, _ error: Error?) -> ()) {
+    
+    
+    func batchDeletePinAnnotation(completionHandler:@escaping (_ success:Bool?) -> ()) {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
         let request = NSBatchDeleteRequest(fetchRequest: fetch)
         do {
             let _ = try delegate.coreDataStack.viewContext.execute(request)
+            completionHandler(true)
         } catch {
             print("error:\(error.localizedDescription)")
+            completionHandler(false)
         }
     }
     
