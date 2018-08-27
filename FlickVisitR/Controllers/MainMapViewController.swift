@@ -53,13 +53,8 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
 //        batchDeletePinImage()
         
         // MARK: Populate the variable pinAnnotationArray:[PinAnnotation] in CoreDataStack
+        // MARK: Populates the Map with PinAnnotations
         retrievePinAnnotationsFromCoreDataAndAddToMapView()
-        
-       
-        
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -220,8 +215,6 @@ extension MainMapViewController: CLLocationManagerDelegate {
 // MARK: These are the batch delete functions from CoreData
 extension MainMapViewController {
     
-//    completionHandlerForGetPhotosTask: @escaping (_ data: Data?, _ error: Error?) -> ()) {
-    
     
     func batchDeletePinAnnotation(completionHandler:@escaping (_ success:Bool?) -> ()) {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
@@ -268,10 +261,11 @@ extension MainMapViewController {
     
     
     func retrievePinAnnotationsFromCoreDataAndAddToMapView() {
+        
         let fetchRequest:NSFetchRequest<PinAnnotation> = PinAnnotation.fetchRequest()
         let sortDesc = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDesc]
-        
+        // MARK: Array data is saved to a Singleton
         if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) {
             CoreDataStack.sharedInstance().pinAnnotationArray = results
             
@@ -293,3 +287,5 @@ extension MainMapViewController {
         }
     }
 }
+
+

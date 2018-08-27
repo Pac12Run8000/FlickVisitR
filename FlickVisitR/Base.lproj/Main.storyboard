@@ -74,7 +74,29 @@
                     <view key="view" contentMode="scaleToFill" id="kxG-lE-iEv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Quu-iR-aii">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="S2c-km-Mqn">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S2c-km-Mqn" id="6tK-jB-X3X">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Quu-iR-aii" firstAttribute="top" secondItem="Ff3-tZ-C4S" secondAttribute="top" id="Th6-0U-Uey"/>
+                            <constraint firstItem="Quu-iR-aii" firstAttribute="leading" secondItem="Ff3-tZ-C4S" secondAttribute="leading" id="kXg-oJ-YZh"/>
+                            <constraint firstItem="Quu-iR-aii" firstAttribute="trailing" secondItem="Ff3-tZ-C4S" secondAttribute="trailing" id="pPb-SV-qb6"/>
+                            <constraint firstItem="Quu-iR-aii" firstAttribute="bottom" secondItem="Ff3-tZ-C4S" secondAttribute="bottom" id="t3t-tw-MK8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Ff3-tZ-C4S"/>
                     </view>
                     <navigationItem key="navigationItem" id="9Qn-1q-QhH">
@@ -214,6 +236,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JoV-eG-N9F"/>
+        <segue reference="snP-xJ-Sle"/>
     </inferredMetricsTieBreakers>
 </document>
