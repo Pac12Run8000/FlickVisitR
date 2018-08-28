@@ -8,10 +8,20 @@
 
 import UIKit
 import CoreData
+import MapKit
+
+
+
+//protocol LocationListViewControllerDelegate:class {
+//    func locationListViewControllerCoords(_ controller:LocationListViewController, _ lat:Double, _ long:Double)
+//}
 
 class LocationListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    
+//    weak var locationListDelegate:LocationListViewControllerDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +36,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,7 +55,17 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
         }
         return cell!
     }
+}
 
+extension LocationListViewController {
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "locationDetail" {
+            let controller = segue.destination as! MapDetailViewController
+            
+        }
+    }
     
 
 }

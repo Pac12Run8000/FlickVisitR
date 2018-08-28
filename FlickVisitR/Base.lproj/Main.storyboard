@@ -103,7 +103,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="JSu-Br-TgV" kind="show" id="99A-hl-JGx"/>
+                                            <segue destination="JSu-Br-TgV" kind="show" identifier="locationDetail" id="99A-hl-JGx"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -130,7 +130,7 @@
         <!--Map Detail View Controller-->
         <scene sceneID="RLo-K9-Fjb">
             <objects>
-                <viewController id="JSu-Br-TgV" customClass="MapDetailViewController" customModule="FlickVisitR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapDetailViewController" id="JSu-Br-TgV" customClass="MapDetailViewController" customModule="FlickVisitR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4AE-8Z-Dar">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -148,6 +148,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cl4-mY-A4N"/>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="D4k-PO-Woa" id="Ez7-RV-5fm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8f-Rv-rmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
