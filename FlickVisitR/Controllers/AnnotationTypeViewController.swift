@@ -39,20 +39,15 @@ class AnnotationTypeViewController: UIViewController {
     @IBAction func cancelButtonAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
-    func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignResponderOnTap))
-        view.addGestureRecognizer(tapGesture)
-    }
 }
 
+
+// MARK: The functionality that allows the user to take an address and get a pin on the map
 extension AnnotationTypeViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        addressTextFieldOutlet.resignFirstResponder()
+        textField.resignFirstResponder()
         shouldPopViewController(textField)
-        
         return true
     }
     
@@ -60,10 +55,15 @@ extension AnnotationTypeViewController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
+    func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignResponderOnTap))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     func shouldPopViewController(_ textField:UITextField) {
 
         // MARK:Unwrapping the address string from the textField
-        if let address = addressTextFieldOutlet.text {
+        if let address = textField.text {
             geocoder.geocodeAddressString(address) { (placemarks, error) in
                 
                 if error != nil {

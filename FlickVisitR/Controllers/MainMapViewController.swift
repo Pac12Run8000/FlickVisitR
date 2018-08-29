@@ -170,7 +170,7 @@ extension MainMapViewController {
     }
     
     func addPinAnnotationToSharedArray(pinAnnotation:PinAnnotation) {
-        CoreDataStack.sharedInstance().pinAnnotationArray.append(pinAnnotation)
+        CoreDataStack.sharedInstance().pinAnnotationArray.insert(pinAnnotation, at: 0)
     }
 }
 
@@ -283,7 +283,7 @@ extension MainMapViewController {
     }
 }
 
-// MARK: Handles CoreData processing
+// MARK: Handles CoreData processing - Saves, Deletes and Retrieves CoreData information.
 extension MainMapViewController {
     
     func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:PinAnnotation?) -> ()) {
