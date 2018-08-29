@@ -197,6 +197,7 @@ extension MainMapViewController:MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
         if let annotation = view.annotation {
+            
             if (editButtonOn) {
                 // MARK: Gets the MKAnnotation from the map, does a fetch on CoreData and returns the PinAnnotation
                 getPinAnnotationFromMKAnnotation(annotation) { (success, pin) in
@@ -210,6 +211,10 @@ extension MainMapViewController:MKMapViewDelegate {
                 
                 // MARK: Deletes PinAnnotation from MapView
                 self.mapView.removeAnnotation(annotation)
+                
+            } else if (!editButtonOn) {
+                let controller = storyboard?.instantiateViewController(withIdentifier: "ImagesCollectionViewController") as! ImagesCollectionViewController
+                navigationController?.pushViewController(controller, animated: true)
             }
         }
     }

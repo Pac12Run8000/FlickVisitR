@@ -18,6 +18,7 @@
 		091DE032212D8FD500A01AC0 /* PinAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE031212D8FD500A01AC0 /* PinAnnotation+Extensions.swift */; };
 		091DE034212D953600A01AC0 /* PinImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE033212D953600A01AC0 /* PinImage+Extension.swift */; };
 		091DE036212D98F800A01AC0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091DE035212D98F800A01AC0 /* CoreDataStack.swift */; };
+		095FCD2821373025005E2E82 /* ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095FCD2721373025005E2E82 /* ImagesCollectionViewController.swift */; };
 		09902D8B213567E400F880E6 /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09902D8A213567E400F880E6 /* MapDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		091DE031212D8FD500A01AC0 /* PinAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinAnnotation+Extensions.swift"; sourceTree = "<group>"; };
 		091DE033212D953600A01AC0 /* PinImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinImage+Extension.swift"; sourceTree = "<group>"; };
 		091DE035212D98F800A01AC0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		095FCD2721373025005E2E82 /* ImagesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewController.swift; sourceTree = "<group>"; };
 		09902D8A213567E400F880E6 /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				091DE0282124AA7D00A01AC0 /* AnnotationTypeViewController.swift */,
 				091DE02A2124AC9300A01AC0 /* LocationListViewController.swift */,
 				09902D8A213567E400F880E6 /* MapDetailViewController.swift */,
+				095FCD2721373025005E2E82 /* ImagesCollectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				09902D8B213567E400F880E6 /* MapDetailViewController.swift in Sources */,
 				091DE0292124AA7D00A01AC0 /* AnnotationTypeViewController.swift in Sources */,
 				091DE034212D953600A01AC0 /* PinImage+Extension.swift in Sources */,
+				095FCD2821373025005E2E82 /* ImagesCollectionViewController.swift in Sources */,
 				091DE036212D98F800A01AC0 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
