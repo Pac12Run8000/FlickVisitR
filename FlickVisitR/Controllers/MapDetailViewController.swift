@@ -12,7 +12,7 @@ import MapKit
 
 class MapDetailViewController: UIViewController, MKMapViewDelegate {
     
-   
+    var coordinates = PinAnnotation()
     let annotation = MKPointAnnotation()
     
 
@@ -25,7 +25,7 @@ class MapDetailViewController: UIViewController, MKMapViewDelegate {
         
         let span:MKCoordinateSpan = MKCoordinateSpanMake(1.0, 1.0)
         
-        let location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(40.8914330044246, -87.3369603228969)
+        let location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(coordinates.lat, coordinates.long)
         
         let region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         mapView.setRegion(region, animated: true)

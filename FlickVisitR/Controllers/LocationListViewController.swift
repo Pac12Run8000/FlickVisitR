@@ -31,11 +31,17 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let pinArray = CoreDataStack.sharedInstance().pinAnnotationArray
+        let pin = pinArray[(indexPath as NSIndexPath).row]
+        let controller = storyboard?.instantiateViewController(withIdentifier: "MapDetailViewController") as! MapDetailViewController
+        controller.coordinates = pin
+        navigationController?.pushViewController(controller, animated: true)
         
     }
     
@@ -57,15 +63,4 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     }
 }
 
-extension LocationListViewController {
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "locationDetail" {
-            let controller = segue.destination as! MapDetailViewController
-            
-        }
-    }
-    
 
-}
