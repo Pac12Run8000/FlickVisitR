@@ -43,9 +43,9 @@ extension ImagesCollectionViewController {
     
     func flowLayoutSetUp() {
         // You get the - 20 from the min spacing for cells in your size attributes for collectionView
-        //        let width = (view.frame.size.width - 20) / 3
-        //        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        //        layout.itemSize = CGSize(width: width, height: width)
+//                let width = (view.frame.size.width - 20) / 3
+//                let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+//                layout.itemSize = CGSize(width: width, height: width)
         let space:CGFloat = 3.0
         let dimension = (view.frame.size.width - (2 * space)) / 3.0
 
