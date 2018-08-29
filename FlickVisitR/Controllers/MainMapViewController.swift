@@ -67,10 +67,6 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        for item in CoreDataStack.sharedInstance().pinAnnotationArray {
-            print("notationArray:lat:\(item.lat), long:\(item.long)")
-        }
-        
     }
 
     @IBAction func editButtonPressed(_ sender: Any) {

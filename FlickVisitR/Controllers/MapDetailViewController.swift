@@ -22,30 +22,21 @@ class MapDetailViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
+        setPinAndZoomToLocation(coordinates)
         
+        
+    }
+}
+
+extension MapDetailViewController {
+    // MARK: Function gets the location and is zzomed in to wher the pin is.
+    func setPinAndZoomToLocation(_ coordinates:PinAnnotation) {
         let span:MKCoordinateSpan = MKCoordinateSpanMake(1.0, 1.0)
-        
         let location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(coordinates.lat, coordinates.long)
-        
         let region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         mapView.setRegion(region, animated: true)
         
         annotation.coordinate = location
         mapView.addAnnotation(annotation)
-        
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-        
-       
-        
-    }
-    
-    
-
-    
-
 }
