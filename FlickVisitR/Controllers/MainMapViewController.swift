@@ -214,6 +214,7 @@ extension MainMapViewController:MKMapViewDelegate {
                 
             } else if (!editButtonOn) {
                 let controller = storyboard?.instantiateViewController(withIdentifier: "ImagesCollectionViewController") as! ImagesCollectionViewController
+                controller.annotation = annotation
                 navigationController?.pushViewController(controller, animated: true)
             }
         }

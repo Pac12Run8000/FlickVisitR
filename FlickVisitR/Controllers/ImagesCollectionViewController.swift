@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import MapKit
 
 class ImagesCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    @IBOutlet weak var refreshButtonOutlet: UIButton!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: Array declarations to populate the collectionView
     var pinImages:[PinImage]!
+    // MARK: Passing the annotation value from the MainMapViewController
+    var annotation:MKAnnotation!
     
     // Mark: Place holder data
     let collectionViewData = ["Oaktown 357","MC Hammer", "Too Short", "Tupac", "Ray Luv", "JT the Bigga Figga", "C-Bo", "Pizo", "Sweet LD", "Terrible T", "Cheri", "Starpoint", "Kieth Sweat", "Big Pun", "Big L", "LL Cool J", "Cool Moe Dee", "Positive K"]
@@ -27,6 +32,16 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         collectionView.dataSource = self
         flowLayoutSetUp()
         
+        refreshButtonOutlet.layer.borderWidth = 3
+        refreshButtonOutlet.layer.cornerRadius = 6
+        refreshButtonOutlet.layer.masksToBounds = true
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("lat:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -38,6 +53,13 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return collectionViewData.count
     }
+    
+    @IBAction func refreshButtonPressed(_ sender: Any) {
+        print("Test!!!")
+    }
+    
+    
+    
 }
 
 // MARK: Setup the flowlayout

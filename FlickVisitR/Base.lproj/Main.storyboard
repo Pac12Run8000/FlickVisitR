@@ -76,7 +76,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="19e-WY-JR5">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="80" width="375" height="587"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Pwh-sh-MJ2">
                                     <size key="itemSize" width="150" height="137"/>
@@ -111,12 +111,29 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHX-Gn-a18">
+                                <rect key="frame" x="25" y="25" width="325" height="50"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ATV-rW-Wpc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="22"/>
+                                <state key="normal" title="Refresh">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="aeL-eL-6HW" eventType="touchUpInside" id="pZn-MP-f6Q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="19e-WY-JR5" firstAttribute="trailing" secondItem="c2V-KQ-x0N" secondAttribute="trailing" id="7Lj-wq-w9K"/>
-                            <constraint firstItem="19e-WY-JR5" firstAttribute="top" secondItem="c2V-KQ-x0N" secondAttribute="top" id="Aah-5A-vCo"/>
+                            <constraint firstItem="gHX-Gn-a18" firstAttribute="top" secondItem="c2V-KQ-x0N" secondAttribute="top" constant="5" id="QiU-M4-gK3"/>
                             <constraint firstItem="19e-WY-JR5" firstAttribute="bottom" secondItem="c2V-KQ-x0N" secondAttribute="bottom" id="SZL-9N-FcY"/>
+                            <constraint firstItem="19e-WY-JR5" firstAttribute="top" secondItem="gHX-Gn-a18" secondAttribute="bottom" constant="5" id="Yle-Hg-2x1"/>
+                            <constraint firstItem="c2V-KQ-x0N" firstAttribute="trailing" secondItem="gHX-Gn-a18" secondAttribute="trailing" constant="25" id="heb-y9-FlH"/>
+                            <constraint firstItem="gHX-Gn-a18" firstAttribute="leading" secondItem="c2V-KQ-x0N" secondAttribute="leading" constant="25" id="iOX-Mc-gfc"/>
                             <constraint firstItem="19e-WY-JR5" firstAttribute="leading" secondItem="c2V-KQ-x0N" secondAttribute="leading" id="nuV-he-LoN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="c2V-KQ-x0N"/>
@@ -124,6 +141,7 @@
                     <connections>
                         <outlet property="collectionView" destination="19e-WY-JR5" id="AVN-gy-y72"/>
                         <outlet property="flowLayout" destination="Pwh-sh-MJ2" id="Ldb-xZ-6cQ"/>
+                        <outlet property="refreshButtonOutlet" destination="gHX-Gn-a18" id="Nmn-tH-Zve"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EbB-jU-aoO" userLabel="First Responder" sceneMemberID="firstResponder"/>
