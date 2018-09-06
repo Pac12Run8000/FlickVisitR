@@ -43,11 +43,9 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         let paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
         
-        for (key, val) in paramArray {
-            print("key:\(key), val:\(val)")
+        FlickrAPIClient.sharedInstance().taskForGetPhotos(paramArray) { (data, error) in
+            
         }
-        
-//        print("lat:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,15 +101,6 @@ extension ImagesCollectionViewController {
     }
 }
 
-
-//FlickrAPIClient.Constants.FlickrParameterKeys.Method:FlickrAPIClient.Constants.FlickrParameterValues.SearchMethod,
-//FlickrAPIClient.Constants.FlickrParameterKeys.SafeSearch:FlickrAPIClient.Constants.FlickrParameterValues.UseSafeSearch,
-//FlickrAPIClient.Constants.FlickrParameterKeys.Extras:FlickrAPIClient.Constants.FlickrParameterValues.MediumURL,
-//FlickrAPIClient.Constants.FlickrParameterKeys.NoJSONCallback:FlickrAPIClient.Constants.FlickrParameterValues.DisableJSONCallback,
-//FlickrAPIClient.Constants.FlickrParameterKeys.Page:FlickrAPIClient.Constants.FlickrParameterValues.PageValue,
-//FlickrAPIClient.Constants.FlickrParameterKeys.Format:FlickrAPIClient.Constants.FlickrParameterValues.ResponseFormat,
-//FlickrAPIClient.Constants.FlickrParameterKeys.PerPage:FlickrAPIClient.Constants.FlickrParameterValues.PerPage
-//]
 
 
 // MARK: This is the functionality for creating the bounding box

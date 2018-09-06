@@ -13,8 +13,27 @@ class FlickrAPIClient: NSObject {
     var session = URLSession.shared
     
     func taskForGetPhotos(_ params:[String:AnyObject], completionHandlerForTask:@escaping (_ data:Data?,_ error:Error?) -> ()) {
-    
+        for (key, val) in params {
+            print("key:\(key), val:\(val)")
+        }
     }
+}
+
+extension FlickrAPIClient {
+    
+    class func sharedInstance() -> FlickrAPIClient {
+        struct Singleton {
+            static var sharedinstance = FlickrAPIClient()
+        }
+        return Singleton.sharedinstance
+    }
+    
+//    class func sharedInstance() -> FlickrAPIClient {
+//        struct Singleton {
+//            static var sharedInstance = FlickrAPIClient()
+//        }
+//        return Singleton.sharedInstance
+//    }
 }
 
 
