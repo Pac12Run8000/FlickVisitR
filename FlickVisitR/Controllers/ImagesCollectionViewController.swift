@@ -41,7 +41,13 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("lat:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
+        let paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
+        
+        for (key, val) in paramArray {
+            print("key:\(key), val:\(val)")
+        }
+        
+//        print("lat:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -76,6 +82,50 @@ extension ImagesCollectionViewController {
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+    }
+}
+// MARK: Build an array of parameters that will eventually be used to create a querystring for the request
+extension ImagesCollectionViewController {
+    
+    
+    func getMethodParametersFromAnnotationCoordinates(_ coordinate:CLLocationCoordinate2D) -> [String:AnyObject] {
+        let parameters = [FlickrAPIClient.Constants.FlickrParameterKeys.APIKey : FlickrAPIClient.Constants.FlickrParameterValues.APIKey,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.BoundingBox : createBoundingBoxString(coordinates: coordinate),
+                          FlickrAPIClient.Constants.FlickrParameterKeys.Method : FlickrAPIClient.Constants.FlickrParameterValues.SearchMethod,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.SafeSearch : FlickrAPIClient.Constants.FlickrParameterValues.UseSafeSearch,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.Extras : FlickrAPIClient.Constants.FlickrParameterValues.MediumURL,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.NoJSONCallback : FlickrAPIClient.Constants.FlickrParameterValues.DisableJSONCallback,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.Page : FlickrAPIClient.Constants.FlickrParameterValues.PageValue,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.Format : FlickrAPIClient.Constants.FlickrParameterValues.ResponseFormat,
+                          FlickrAPIClient.Constants.FlickrParameterKeys.PerPage : FlickrAPIClient.Constants.FlickrParameterValues.PerPage
+            ] as [String : Any]
+        return parameters as [String : AnyObject]
+    }
+}
+
+
+//FlickrAPIClient.Constants.FlickrParameterKeys.Method:FlickrAPIClient.Constants.FlickrParameterValues.SearchMethod,
+//FlickrAPIClient.Constants.FlickrParameterKeys.SafeSearch:FlickrAPIClient.Constants.FlickrParameterValues.UseSafeSearch,
+//FlickrAPIClient.Constants.FlickrParameterKeys.Extras:FlickrAPIClient.Constants.FlickrParameterValues.MediumURL,
+//FlickrAPIClient.Constants.FlickrParameterKeys.NoJSONCallback:FlickrAPIClient.Constants.FlickrParameterValues.DisableJSONCallback,
+//FlickrAPIClient.Constants.FlickrParameterKeys.Page:FlickrAPIClient.Constants.FlickrParameterValues.PageValue,
+//FlickrAPIClient.Constants.FlickrParameterKeys.Format:FlickrAPIClient.Constants.FlickrParameterValues.ResponseFormat,
+//FlickrAPIClient.Constants.FlickrParameterKeys.PerPage:FlickrAPIClient.Constants.FlickrParameterValues.PerPage
+//]
+
+
+// MARK: This is the functionality for creating the bounding box
+extension ImagesCollectionViewController {
+    
+    func createBoundingBoxString(coordinates: CLLocationCoordinate2D) -> String {
+        if let latitude = coordinates.latitude as? Double, let longitude = coordinates.longitude as? Double {
+            let minimumLong = max(longitude - FlickrAPIClient.Constants.Flickr.SearchBBoxHalfWidth, FlickrAPIClient.Constants.Flickr.SearchLonRange.0)
+            let minimumLat = max(latitude - FlickrAPIClient.Constants.Flickr.SearchBBoxHalfHeight, FlickrAPIClient.Constants.Flickr.SearchLatRange.0)
+            let maximumLong = min(longitude + FlickrAPIClient.Constants.Flickr.SearchBBoxHalfWidth, FlickrAPIClient.Constants.Flickr.SearchLonRange.1)
+            let maximumLat = min(latitude + FlickrAPIClient.Constants.Flickr.SearchBBoxHalfHeight, FlickrAPIClient.Constants.Flickr.SearchLatRange.1)
+            return "\(minimumLong),\(minimumLat),\(maximumLong),\(maximumLat)"
+        }
+        return "0,0,0,0"
     }
 }
 
