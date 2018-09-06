@@ -21,6 +21,9 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
+    // MARK: The array of perameters used to build a URLRequest
+    var paramArray:[String:AnyObject]!
+    
     // Mark: Place holder data
     let collectionViewData = ["Oaktown 357","MC Hammer", "Too Short", "Tupac", "Ray Luv", "JT the Bigga Figga", "C-Bo", "Pizo", "Sweet LD", "Terrible T", "Cheri", "Starpoint", "Kieth Sweat", "Big Pun", "Big L", "LL Cool J", "Cool Moe Dee", "Positive K"]
     
@@ -41,11 +44,11 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
-        
+        paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
         FlickrAPIClient.sharedInstance().taskForGetPhotos(paramArray) { (data, error) in
             
         }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
