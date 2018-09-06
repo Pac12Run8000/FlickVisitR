@@ -45,10 +45,10 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewWillAppear(animated)
         
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
-        FlickrAPIClient.sharedInstance().taskForGetPhotos(paramArray) { (data, error) in
+        
+        FlickrAPIClient.sharedInstance().getPhotos(paramArray, nil) { (success, error, pinImages) in
             
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
