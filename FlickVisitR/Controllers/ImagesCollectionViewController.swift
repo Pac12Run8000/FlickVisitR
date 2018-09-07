@@ -18,7 +18,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: Array declarations to populate the collectionView
-    var populateCollectionview = [PinImage]()
+    var arrayForCollectionView = [PinImage]()
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
@@ -47,7 +47,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         // MARK: Takes the coordinate information from the MKAnnotation
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
         // MARK: This method populates the variable declared at the top "populateCollectionview" with Data from the API call
-        populateTheCollectionViewArray(paramArray: paramArray)
+        populateArrayForCollectionView(paramArray: paramArray)
         
     }
     
@@ -59,7 +59,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return self.populateCollectionview.count
+        return self.arrayForCollectionView.count
     }
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
@@ -70,22 +70,22 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     
 }
 
-
+// MARK: This is the API call that populates the collectionView
 extension ImagesCollectionViewController {
     
-    func populateTheCollectionViewArray(paramArray:[String:AnyObject]) {
+    func populateArrayForCollectionView(paramArray:[String:AnyObject]) {
         FlickrAPIClient.sharedInstance().getPhotos(paramArray, delegate.coreDataStack.viewContext) { (success, error, pinImages) in
             
             if (success)! {
                 
                 DispatchQueue.global(qos: .userInitiated).async { () -> Void in
-                    self.populateCollectionview = pinImages!
+                    self.arrayForCollectionView = pinImages!
                     
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
                     }
                     
-//                    for pinImage in self.populateCollectionview {
+//                    for pinImage in self.arrayForCollectionView {
 //                        print("title:\(pinImage.title), url:\(pinImage.url)")
 //                    }
                 }
