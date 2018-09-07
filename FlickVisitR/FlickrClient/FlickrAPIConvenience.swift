@@ -67,9 +67,12 @@ extension FlickrAPIClient {
                 } else {
                     for item in photoArray {
                         let pinImage = PinImage(context: context!)
-                        pinImage.title = item["title"] as! String
-                        pinImage.url = item["url_m"] as! String
-                        pinImage.image = nil
+                        
+                        if let urlString = item["url_m"] as? String, let url = URL(string: urlString), let imgData = try? Data(contentsOf: url) {
+                            pinImage.title = item["title"] as? String
+                            pinImage.url = urlString
+                            pinImage.image = imgData
+                        }
                         
                         photoArrayToAppend.append(pinImage)
                         completionHandler(true, nil, photoArrayToAppend)
@@ -80,5 +83,10 @@ extension FlickrAPIClient {
             
         }
     }
+    
+}
+
+
+extension FlickrAPIClient {
     
 }
