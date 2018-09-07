@@ -18,7 +18,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: Array declarations to populate the collectionView
-    var pinImages:[PinImage]!
+    var populateCollectionview = [PinImage]()
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
@@ -28,10 +28,6 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     
     // MARK: Delegate to access the NSManagedContext
     let delegate = UIApplication.shared.delegate as! AppDelegate
-    
-    // Mark: Place holder data
-    let collectionViewData = ["Oaktown 357","MC Hammer", "Too Short", "Tupac", "Ray Luv", "JT the Bigga Figga", "C-Bo", "Pizo", "Sweet LD", "Terrible T", "Cheri", "Starpoint", "Kieth Sweat", "Big Pun", "Big L", "LL Cool J", "Cool Moe Dee", "Positive K"]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,24 +40,14 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         refreshButtonOutlet.layer.cornerRadius = 6
         refreshButtonOutlet.layer.masksToBounds = true
         
-         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        // MARK: Takes the coordinate information from the MKAnnotation
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
-        
-        FlickrAPIClient.sharedInstance().getPhotos(paramArray, delegate.coreDataStack.viewContext) { (success, error, pinImages) in
-            if (success)! {
-                for pinImage in pinImages! {
-                    print("title:\(pinImage.title), url:\(pinImage.url)")
-                }
-            }
-        }
-        
-       
+        // MARK: This method populates the variable declared at the top "populateCollectionview" with Data from the API call
+        populateTheCollectionViewArray(paramArray: paramArray)
         
     }
     
@@ -72,7 +58,8 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionViewData.count
+
+        return self.populateCollectionview.count
     }
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
@@ -81,6 +68,31 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     
     
     
+}
+
+
+extension ImagesCollectionViewController {
+    
+    func populateTheCollectionViewArray(paramArray:[String:AnyObject]) {
+        FlickrAPIClient.sharedInstance().getPhotos(paramArray, delegate.coreDataStack.viewContext) { (success, error, pinImages) in
+            
+            if (success)! {
+                
+                DispatchQueue.global(qos: .userInitiated).async { () -> Void in
+                    self.populateCollectionview = pinImages!
+                    
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                    
+//                    for pinImage in self.populateCollectionview {
+//                        print("title:\(pinImage.title), url:\(pinImage.url)")
+//                    }
+                }
+                
+            }
+        }
+    }
 }
 
 // MARK: Setup the flowlayout
