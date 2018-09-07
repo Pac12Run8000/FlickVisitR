@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class ImagesCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -24,6 +25,10 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     // MARK: The array of perameters used to build a URLRequest
     var paramArray:[String:AnyObject]!
     
+    
+    // MARK: Delegate to access the NSManagedContext
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    
     // Mark: Place holder data
     let collectionViewData = ["Oaktown 357","MC Hammer", "Too Short", "Tupac", "Ray Luv", "JT the Bigga Figga", "C-Bo", "Pizo", "Sweet LD", "Terrible T", "Cheri", "Starpoint", "Kieth Sweat", "Big Pun", "Big L", "LL Cool J", "Cool Moe Dee", "Positive K"]
     
@@ -39,6 +44,8 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         refreshButtonOutlet.layer.cornerRadius = 6
         refreshButtonOutlet.layer.masksToBounds = true
         
+         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,9 +53,16 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
         
-        FlickrAPIClient.sharedInstance().getPhotos(paramArray, nil) { (success, error, pinImages) in
-            
+        FlickrAPIClient.sharedInstance().getPhotos(paramArray, delegate.coreDataStack.viewContext) { (success, error, pinImages) in
+            if (success)! {
+                for pinImage in pinImages! {
+                    print("title:\(pinImage.title), url:\(pinImage.url)")
+                }
+            }
         }
+        
+       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

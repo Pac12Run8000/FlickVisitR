@@ -23,6 +23,7 @@ extension FlickrAPIClient {
             
             guard let data = data else {
                 print("An error occurred retrieving data.")
+                completionHandler(false, nil, nil)
                 return
             }
             
@@ -31,16 +32,19 @@ extension FlickrAPIClient {
                 parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
             } catch {
                 print("Couldn't parse data:\(data)")
+                completionHandler(false, nil, nil)
                 return
             }
             
             guard let stat = parsedResult["stat"] as? String, stat == "ok" else {
                 print("Flickr returned an error.")
+                completionHandler(false, nil, nil)
                 return
             }
             
             guard let photos = parsedResult["photos"] as? [String:AnyObject] else {
                 print("Cannot find key in parsedResult = photos")
+                completionHandler(false, nil, nil)
                 return
             }
             
@@ -52,19 +56,29 @@ extension FlickrAPIClient {
 
             guard let photoArray = photos["photo"] as? [[String:AnyObject]] else {
                 print("Could not find the photo array.")
+                completionHandler(false, nil, nil)
                 return
             }
-            
-            for item in photoArray {
-                if let title = item["title"], let url = item["url_m"] {
-                    print("title:\(title), url:\(url)")
+           
+            var photoArrayToAppend = [PinImage]()
+            DispatchQueue.global(qos: .userInitiated).async { () -> Void in
+                if photoArray.count == 0 {
+                    completionHandler(false, nil, nil)
+                } else {
+                    for item in photoArray {
+                        let pinImage = PinImage(context: context!)
+                        pinImage.title = item["title"] as! String
+                        pinImage.url = item["url_m"] as! String
+                        pinImage.image = nil
+                        
+                        photoArrayToAppend.append(pinImage)
+                        completionHandler(true, nil, photoArrayToAppend)
+                    }
                 }
             }
             
             
-           
         }
-        
     }
     
 }
