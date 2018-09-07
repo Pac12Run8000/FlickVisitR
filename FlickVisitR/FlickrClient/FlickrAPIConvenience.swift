@@ -59,28 +59,12 @@ extension FlickrAPIClient {
                 completionHandler(false, nil, nil)
                 return
             }
-           
-            var photoArrayToAppend = [PinImage]()
-            DispatchQueue.global(qos: .userInitiated).async { () -> Void in
-                if photoArray.count == 0 {
-                    completionHandler(false, nil, nil)
-                } else {
-                    for item in photoArray {
-                        let pinImage = PinImage(context: context!)
-                        
-                        if let urlString = item["url_m"] as? String, let url = URL(string: urlString), let imgData = try? Data(contentsOf: url) {
-                            pinImage.title = item["title"] as? String
-                            pinImage.url = urlString
-                            pinImage.image = imgData
-                        }
-                        
-                        photoArrayToAppend.append(pinImage)
-                        completionHandler(true, nil, photoArrayToAppend)
-                    }
-                }
-            }
             
-            
+            // MARK: This method takes the photoArray and uses the closure to return an array of PinImages with image data and not just a URL string
+            self.getImageDataForPinImageArray(photoArray: photoArray, context: context, photoArrayCompletionHandler: { (pinImages) in
+                
+                completionHandler(true, nil, pinImages)
+            })
         }
     }
     
@@ -89,4 +73,28 @@ extension FlickrAPIClient {
 
 extension FlickrAPIClient {
     
+    
+    func getImageDataForPinImageArray(photoArray:[[String:AnyObject]], context:NSManagedObjectContext?, photoArrayCompletionHandler: @escaping (_ pinImage:[PinImage]?) -> ()) {
+        
+        var photoArrayToAppend = [PinImage]()
+        DispatchQueue.global(qos: .userInitiated).async { () -> Void in
+            if photoArray.count == 0 {
+                photoArrayCompletionHandler(nil)
+            } else {
+                for item in photoArray {
+                    let pinImage = PinImage(context: context!)
+                    
+                    if let urlString = item["url_m"] as? String, let url = URL(string: urlString), let imgData = try? Data(contentsOf: url) {
+                        pinImage.title = item["title"] as? String
+                        pinImage.url = urlString
+                        pinImage.image = imgData
+                    }
+                    
+                    photoArrayToAppend.append(pinImage)
+                    photoArrayCompletionHandler(photoArrayToAppend)
+                }
+            }
+        }
+        
+    }
 }

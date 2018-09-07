@@ -81,8 +81,10 @@ extension ImagesCollectionViewController {
             if (success)! {
                 
                 DispatchQueue.global(qos: .userInitiated).async { () -> Void in
-                    self.arrayForCollectionView = pinImages!
-                    
+                    // MARK: Prevent a nil value that causes a fatal crash
+                    if let pinImages = pinImages {
+                        self.arrayForCollectionView = pinImages
+                    }
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
                     }
