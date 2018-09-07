@@ -13,8 +13,6 @@ extension FlickrAPIClient {
     
     func getPhotos(_ params:[String:AnyObject], _ context:NSManagedObjectContext?, completionHandler: @escaping (_ success:Bool?, _ error:String?, _ photos:[PinImage]?) -> ()) {
         
-        
-        
         FlickrAPIClient.sharedInstance().taskForGetPhotos(params) { (data, error) in
             if (error != nil) {
                 completionHandler(false, error?.localizedDescription, nil)

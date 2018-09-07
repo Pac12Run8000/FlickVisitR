@@ -54,8 +54,8 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let itemForCollectionView = arrayForCollectionView[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
-        cell.imageView.image = UIImage(data: itemForCollectionView.image!)
-        
+
+        cell.pinImageObject = itemForCollectionView
         return cell
     }
 
