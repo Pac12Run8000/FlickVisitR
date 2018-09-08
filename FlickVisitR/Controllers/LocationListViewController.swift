@@ -10,19 +10,10 @@ import UIKit
 import CoreData
 import MapKit
 
-
-
-//protocol LocationListViewControllerDelegate:class {
-//    func locationListViewControllerCoords(_ controller:LocationListViewController, _ lat:Double, _ long:Double)
-//}
-
 class LocationListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    
-//    weak var locationListDelegate:LocationListViewControllerDelegate?
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
