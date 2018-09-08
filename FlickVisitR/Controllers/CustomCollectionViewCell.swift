@@ -11,10 +11,11 @@ import UIKit
 class CustomCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+   
     
     var pinImageObject:PinImage! {
         didSet {
-            imageView.image = UIImage(data: pinImageObject.image as! Data)
+                self.imageView.image = UIImage(data: self.pinImageObject.image as! Data)
         }
     }
     

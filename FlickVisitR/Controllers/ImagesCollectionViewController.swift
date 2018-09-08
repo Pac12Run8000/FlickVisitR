@@ -54,8 +54,10 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let itemForCollectionView = arrayForCollectionView[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
-
+        
         cell.pinImageObject = itemForCollectionView
+        
+        
         return cell
     }
 
@@ -87,6 +89,7 @@ extension ImagesCollectionViewController {
                     }
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
+                        
                     }
                     
 //                    for pinImage in self.arrayForCollectionView {
