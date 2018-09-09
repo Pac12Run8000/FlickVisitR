@@ -73,15 +73,6 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate, randomPageString)
         populateArrayForCollectionView(paramArray: paramArray)
     }
-    
-     // MARK: Generate a random number
-    func generateRandomNumberAsString() -> String {
-        let randomPage = Int(arc4random_uniform(UInt32(20))) + 1
-        return "\(randomPage)"
-    }
-    
-    
-    
 }
 
 // MARK: This is the API call that populates the collectionView
@@ -163,6 +154,16 @@ extension ImagesCollectionViewController {
         }
         return "0,0,0,0"
     }
+}
+
+extension ImagesCollectionViewController {
+    
+    // MARK: Generate a random number
+    func generateRandomNumberAsString() -> String {
+        let randomPage = Int(arc4random_uniform(UInt32(20))) + 1
+        return "\(randomPage)"
+    }
+    
 }
 
 
