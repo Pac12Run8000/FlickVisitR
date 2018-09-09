@@ -17,8 +17,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    // MARK: Array declarations to populate the collectionView
-    var arrayForCollectionView = [PinImage]()
+    
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
@@ -51,19 +50,23 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        CoreDataStack.sharedInstance().pinImageArray = [PinImage]()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemForCollectionView = arrayForCollectionView[indexPath.row]
+
+        let itemForCollectionView = CoreDataStack.sharedInstance().pinImageArray[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
         cell.pinImageObject = itemForCollectionView
-        
-        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
-        return self.arrayForCollectionView.count
+        
+        return CoreDataStack.sharedInstance().pinImageArray.count
     }
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
@@ -86,7 +89,8 @@ extension ImagesCollectionViewController {
                 DispatchQueue.global(qos: .userInitiated).async { () -> Void in
                     // MARK: Prevent a nil value that causes a fatal crash
                     if let pinImages = pinImages {
-                        self.arrayForCollectionView = pinImages
+//                        self.arrayForCollectionView = pinImages
+                        CoreDataStack.sharedInstance().pinImageArray = pinImages
                     }
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
