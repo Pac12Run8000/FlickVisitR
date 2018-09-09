@@ -67,7 +67,17 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
-        print("Test!!!")
+        // MARK: Generate a random number
+        let randomPageString = generateRandomNumberAsString()
+        // MARK: Get an array of parameters and make Page equal to a random number
+        paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate, randomPageString)
+        populateArrayForCollectionView(paramArray: paramArray)
+    }
+    
+     // MARK: Generate a random number
+    func generateRandomNumberAsString() -> String {
+        let randomPage = Int(arc4random_uniform(UInt32(20))) + 1
+        return "\(randomPage)"
     }
     
     
@@ -89,12 +99,7 @@ extension ImagesCollectionViewController {
                     }
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
-                        
                     }
-                    
-//                    for pinImage in self.arrayForCollectionView {
-//                        print("title:\(pinImage.title), image:\(pinImage.image)")
-//                    }
                 }
                 
             }
@@ -121,9 +126,10 @@ extension ImagesCollectionViewController {
 // MARK: Build an array of parameters that will eventually be used to create a querystring for the request
 extension ImagesCollectionViewController {
     
-    
-    func getMethodParametersFromAnnotationCoordinates(_ coordinate:CLLocationCoordinate2D) -> [String:AnyObject] {
-        let parameters = [FlickrAPIClient.Constants.FlickrParameterKeys.APIKey : FlickrAPIClient.Constants.FlickrParameterValues.APIKey,
+    // MARK: The function can be called by either using 1 or 2 parameters
+    // MARK: The parameter key of Page is 1 by default. Otherwise you can pass a string that represents any number. In this case the number is a random number between 1 and 20
+    func getMethodParametersFromAnnotationCoordinates(_ coordinate:CLLocationCoordinate2D,_  randomStringForPage:String? = nil) -> [String:AnyObject] {
+        var parameters = [FlickrAPIClient.Constants.FlickrParameterKeys.APIKey : FlickrAPIClient.Constants.FlickrParameterValues.APIKey,
                           FlickrAPIClient.Constants.FlickrParameterKeys.BoundingBox : createBoundingBoxString(coordinates: coordinate),
                           FlickrAPIClient.Constants.FlickrParameterKeys.Method : FlickrAPIClient.Constants.FlickrParameterValues.SearchMethod,
                           FlickrAPIClient.Constants.FlickrParameterKeys.SafeSearch : FlickrAPIClient.Constants.FlickrParameterValues.UseSafeSearch,
@@ -133,6 +139,11 @@ extension ImagesCollectionViewController {
                           FlickrAPIClient.Constants.FlickrParameterKeys.Format : FlickrAPIClient.Constants.FlickrParameterValues.ResponseFormat,
                           FlickrAPIClient.Constants.FlickrParameterKeys.PerPage : FlickrAPIClient.Constants.FlickrParameterValues.PerPage
             ] as [String : Any]
+        // MARK: This functionality passes a value for the page parameter in the API call otherwise the defualt value is "1"
+        if let randomStringForPage = randomStringForPage {
+            parameters["page"] = randomStringForPage
+        }
+
         return parameters as [String : AnyObject]
     }
 }
