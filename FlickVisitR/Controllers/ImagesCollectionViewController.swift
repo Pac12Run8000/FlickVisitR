@@ -21,6 +21,9 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
+    // MARK: The pinAnnotation is set in the viewWillAppear function
+    var pinAnnotation:PinAnnotation!
+    
     // MARK: The array of perameters used to build a URLRequest
     var paramArray:[String:AnyObject]!
     
@@ -43,12 +46,24 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        // MARK: Retrieve PinAnnotation from CoreData
+        // MARK: You must have a specific PinAnnotation is order to search for pinImages that have a relationship to the current PinAnnotation
+        getPinAnnotationFromMKAnnotation(annotation) { (success, pin) in
+            if (success)! {
+               self.pinAnnotation = pin
+            }
+        }
+        
+        
+        
         // MARK: Takes the coordinate information from the MKAnnotation
         paramArray = getMethodParametersFromAnnotationCoordinates(annotation.coordinate)
         // MARK: This method populates the variable declared at the top "populateCollectionview" with Data from the API call
         populateArrayForCollectionView(paramArray: paramArray)
-        
     }
+    
+   
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -168,6 +183,23 @@ extension ImagesCollectionViewController {
         return "\(randomPage)"
     }
     
+}
+
+// MARK: This is where the data interacts with CoreData
+extension ImagesCollectionViewController {
+    
+    // MARK: get the pinAnnotation from the MKAnnotation
+    func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:PinAnnotation?) -> ()) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
+        fetchRequest.predicate = pred
+        
+        if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) as? [PinAnnotation] {
+            completion(true, results?.first)
+        }
+        completion(false, nil)
+    }
 }
 
 
