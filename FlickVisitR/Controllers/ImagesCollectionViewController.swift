@@ -21,8 +21,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     // MARK: Passing the annotation value from the MainMapViewController
     var annotation:MKAnnotation!
     
-    // MARK: The pinAnnotation is set in the viewWillAppear function
-    var pinAnnotation:PinAnnotation!
+    
     
     // MARK: The array of perameters used to build a URLRequest
     var paramArray:[String:AnyObject]!
@@ -42,18 +41,32 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         refreshButtonOutlet.layer.cornerRadius = 6
         refreshButtonOutlet.layer.masksToBounds = true
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         // MARK: Retrieve PinAnnotation from CoreData
         // MARK: You must have a specific PinAnnotation is order to search for pinImages that have a relationship to the current PinAnnotation
-        getPinAnnotationFromMKAnnotation(annotation) { (success, pin) in
-            if (success)! {
-               self.pinAnnotation = pin
+        getPinAnnotationFromMKAnnotation(annotation) { (success, pins) in
+            
+            if let pin = pins?.first {
+            self.getPinImagesFromCoreData(pinAnnotation: pin, completionHandler: { (successForPinImages, pinImages) in
+                if (successForPinImages) {
+                    if (pinImages?.count == 0) {
+                        print("Save pinImages")
+                    } else {
+                        print("Get pinImages")
+                    }
+                } else {
+                    print("The attempt at getting pinImages failed.")
+                }
+            })
             }
         }
+       
         
         
         
@@ -63,7 +76,8 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         populateArrayForCollectionView(paramArray: paramArray)
     }
     
-   
+    
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -189,16 +203,33 @@ extension ImagesCollectionViewController {
 extension ImagesCollectionViewController {
     
     // MARK: get the pinAnnotation from the MKAnnotation
-    func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:PinAnnotation?) -> ()) {
+    func getPinAnnotationFromMKAnnotation(_ annotation:MKAnnotation, completion:@escaping(_ success:Bool?,_ pin:[PinAnnotation]?) -> ()) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinAnnotation")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         let pred = NSPredicate(format: "lat = %lf AND long = %lf", annotation.coordinate.latitude, annotation.coordinate.longitude)
         fetchRequest.predicate = pred
-        
         if let results = try? delegate.coreDataStack.viewContext.fetch(fetchRequest) as? [PinAnnotation] {
-            completion(true, results?.first)
+            completion(true, results)
+        } else {
+            completion(false, nil)
         }
-        completion(false, nil)
+    }
+    
+    // MARK: This is where you retrieve images from CoreData
+    func getPinImagesFromCoreData(pinAnnotation:PinAnnotation, completionHandler: @escaping (_ success:Bool, _ pinImages:[PinImage]?) ->()) {
+        
+        var coreDataPinImages = [PinImage]()
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "PinImage")
+        fr.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        let pred = NSPredicate(format: "pinAnnotation = %@", pinAnnotation)
+        fr.predicate = pred
+        do {
+            coreDataPinImages = try delegate.coreDataStack.viewContext.fetch(fr) as! [PinImage]
+            completionHandler(true, coreDataPinImages)
+        } catch {
+            print("There was an error retrieving images from CoreData to display.")
+            completionHandler(false, nil)
+        }
     }
 }
 
