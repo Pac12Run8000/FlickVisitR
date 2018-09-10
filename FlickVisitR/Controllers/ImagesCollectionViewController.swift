@@ -48,7 +48,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        checkIfImagesAreInCoreDataOrMakeAPICall(annotation: annotation)
+       
        
         
         
@@ -68,7 +68,9 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
+        
+        
         let itemForCollectionView = CoreDataStack.sharedInstance().pinImageArray[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
