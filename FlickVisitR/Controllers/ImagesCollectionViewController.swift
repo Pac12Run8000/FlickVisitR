@@ -48,24 +48,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // MARK: Retrieve PinAnnotation from CoreData
-        // MARK: You must have a specific PinAnnotation is order to search for pinImages that have a relationship to the current PinAnnotation
-        getPinAnnotationFromMKAnnotation(annotation) { (success, pins) in
-            
-            if let pin = pins?.first {
-            self.getPinImagesFromCoreData(pinAnnotation: pin, completionHandler: { (successForPinImages, pinImages) in
-                if (successForPinImages) {
-                    if (pinImages?.count == 0) {
-                        print("Save pinImages")
-                    } else {
-                        print("Get pinImages")
-                    }
-                } else {
-                    print("The attempt at getting pinImages failed.")
-                }
-            })
-            }
-        }
+        checkIfImagesAreInCoreDataOrMakeAPICall(annotation: annotation)
        
         
         
@@ -229,6 +212,27 @@ extension ImagesCollectionViewController {
         } catch {
             print("There was an error retrieving images from CoreData to display.")
             completionHandler(false, nil)
+        }
+    }
+    
+    func checkIfImagesAreInCoreDataOrMakeAPICall(annotation:MKAnnotation) {
+        // MARK: Retrieve PinAnnotation from CoreData
+        // MARK: You must have a specific PinAnnotation is order to search for pinImages that have a relationship to the current PinAnnotation
+        getPinAnnotationFromMKAnnotation(annotation) { (success, pins) in
+            
+            if let pin = pins?.first {
+                self.getPinImagesFromCoreData(pinAnnotation: pin, completionHandler: { (successForPinImages, pinImages) in
+                    if (successForPinImages) {
+                        if (pinImages?.count == 0) {
+                            print("Save pinImages to CoreData")
+                        } else {
+                            print("Retrieve images from CoreData")
+                        }
+                    } else {
+                        print("The attempt at getting pinImages failed.")
+                    }
+                })
+            }
         }
     }
 }
