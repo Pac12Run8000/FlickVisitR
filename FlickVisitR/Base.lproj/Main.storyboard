@@ -118,7 +118,7 @@
                                     <constraint firstAttribute="height" constant="50" id="ATV-rW-Wpc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="22"/>
-                                <state key="normal" title="Refresh">
+                                <state key="normal" title="Get Random Page">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
