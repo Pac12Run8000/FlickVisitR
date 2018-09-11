@@ -78,8 +78,8 @@ extension FlickrAPIClient {
     // MARK:function used to configure the URL Session
     func setDefaultTimeoutForConfiguration() -> URLSession {
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 15.0
-        sessionConfig.timeoutIntervalForResource = 15.0
+        sessionConfig.timeoutIntervalForRequest = 10.0
+        sessionConfig.timeoutIntervalForResource = 10.0
         
         return URLSession(configuration: sessionConfig)
     }
