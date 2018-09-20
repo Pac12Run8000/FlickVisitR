@@ -96,16 +96,22 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="137"/>
                                                     <color key="backgroundColor" red="0.85490196080000003" green="0.82352941180000006" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xcB-RW-cXg">
+                                                    <rect key="frame" x="57" y="50" width="37" height="37"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.85490196080000003" green="0.82352941180000006" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="bsM-0Y-vPS" secondAttribute="trailing" id="2l5-pr-CgN"/>
                                             <constraint firstItem="bsM-0Y-vPS" firstAttribute="leading" secondItem="oWK-Do-eJO" secondAttribute="leading" id="Rlp-w6-vsz"/>
+                                            <constraint firstItem="xcB-RW-cXg" firstAttribute="centerY" secondItem="oWK-Do-eJO" secondAttribute="centerY" id="Zfo-3n-28Q"/>
+                                            <constraint firstItem="xcB-RW-cXg" firstAttribute="centerX" secondItem="oWK-Do-eJO" secondAttribute="centerX" id="bOA-4r-Bxo"/>
                                             <constraint firstItem="bsM-0Y-vPS" firstAttribute="top" secondItem="oWK-Do-eJO" secondAttribute="top" id="uhf-PS-vMT"/>
                                             <constraint firstAttribute="bottom" secondItem="bsM-0Y-vPS" secondAttribute="bottom" id="xP7-lN-r38"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicatorOutlet" destination="xcB-RW-cXg" id="9ns-Sh-Pf8"/>
                                             <outlet property="imageView" destination="bsM-0Y-vPS" id="BEy-ab-Pd2"/>
                                         </connections>
                                     </collectionViewCell>

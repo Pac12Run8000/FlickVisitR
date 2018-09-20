@@ -12,12 +12,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
    
+    @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
     
-    var pinImageObject:PinImage! {
+    var imageData:Data? {
         didSet {
-                self.imageView.image = UIImage(data: self.pinImageObject.image as! Data)
+            self.imageView.image = UIImage(data: imageData!)
         }
     }
+    
+
     
 
     

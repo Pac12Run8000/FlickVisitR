@@ -80,12 +80,18 @@ extension FlickrAPIClient {
                 photoArrayCompletionHandler(nil)
             } else {
                 for item in photoArray {
+                    guard let _ = context else {
+                        print("There was no context available.")
+                        return
+                    }
                     let pinImage = PinImage(context: context!)
                     
-                    if let urlString = item["url_m"] as? String, let url = URL(string: urlString), let imgData = try? Data(contentsOf: url) {
+
+                    if let urlString = item["url_m"] as? String {
                         pinImage.title = item["title"] as? String
                         pinImage.url = urlString
-                        pinImage.image = imgData
+//                        pinImage.image = imgData
+                        pinImage.image = nil
                     }
                     
                     photoArrayToAppend.append(pinImage)

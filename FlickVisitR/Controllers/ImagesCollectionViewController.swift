@@ -71,8 +71,19 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         let itemForCollectionView = CoreDataStack.sharedInstance().pinImageArray[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
+        cell.imageView.image = nil
+        self.refreshButtonOutlet.isEnabled = false
+        cell.activityIndicatorOutlet.isHidden = false
+        cell.activityIndicatorOutlet.startAnimating()
         
-        cell.pinImageObject = itemForCollectionView
+        FlickrAPIClient.sharedInstance().getImageData(stringUrl: itemForCollectionView.url!) { (data, err) in
+            cell.imageData = data
+            cell.activityIndicatorOutlet.stopAnimating()
+            self.refreshButtonOutlet.isEnabled = true
+        }
+        
+        
+//        cell.pinImageObject = itemForCollectionView
         return cell
         
     }

@@ -40,6 +40,24 @@ class FlickrAPIClient: NSObject {
         task.resume()
     }
 }
+//MARK: Retrieve the image data
+extension FlickrAPIClient {
+   
+
+    func getImageData(stringUrl:String, completionHandler:@escaping (_ data:Data?, _ error:String?) -> ()) {
+     session = URLSession.shared
+        
+        DispatchQueue.main.async {
+            if let url = URL(string: stringUrl), let imgData = try? Data(contentsOf: url) {
+                completionHandler(imgData, nil)
+            } else {
+                completionHandler(nil, "There was an error getting the image")
+            }
+        }
+        
+    }
+    
+}
 
 // MARK: Creates the first part of the URL used in the API call
 extension FlickrAPIClient {
