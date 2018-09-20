@@ -76,7 +76,7 @@ class ImagesCollectionViewController: UIViewController, UICollectionViewDataSour
         cell.activityIndicatorOutlet.isHidden = false
         cell.activityIndicatorOutlet.startAnimating()
         
-        FlickrAPIClient.sharedInstance().getImageData(stringUrl: itemForCollectionView.url!) { (data, err) in
+        FlickrAPIClient.sharedInstance().getImageDataFromUrl(stringUrl: itemForCollectionView.url!) { (data, err) in
             cell.imageData = data
             cell.activityIndicatorOutlet.stopAnimating()
             self.refreshButtonOutlet.isEnabled = true

@@ -84,7 +84,13 @@ extension FlickrAPIClient {
                         print("There was no context available.")
                         return
                     }
+                   
                     let pinImage = PinImage(context: context!)
+                    
+                    guard let _ = pinImage as? PinImage else {
+                        print("There was an error with the pinImage.")
+                        return
+                    }
                     
 
                     if let urlString = item["url_m"] as? String {
@@ -101,4 +107,22 @@ extension FlickrAPIClient {
         }
         
     }
+}
+
+//MARK: Retrieve the image data
+extension FlickrAPIClient {
+    
+    
+    func getImageDataFromUrl(stringUrl:String, completionHandler:@escaping (_ data:Data?, _ error:String?) -> ()) {
+        
+        DispatchQueue.main.async {
+            if let url = URL(string: stringUrl), let imgData = try? Data(contentsOf: url) {
+                completionHandler(imgData, nil)
+            } else {
+                completionHandler(nil, "There was an error getting the image")
+            }
+        }
+        
+    }
+    
 }
