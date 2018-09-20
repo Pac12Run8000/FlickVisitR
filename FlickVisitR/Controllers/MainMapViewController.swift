@@ -26,9 +26,14 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         addPinAnnotationToSharedArray(pinAnnotation: pinAnnotation)
         
         // MARK: Changes Managed object context are being saved 
-        saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
+
+        saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext) { (success) in
+            if (success) {
+                self.mapView.addAnnotation(annotation)
+            }
+        }
         
-        mapView.addAnnotation(annotation)
+        
     }
     
     
@@ -137,11 +142,14 @@ extension MainMapViewController {
                 let addAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
                 addAnnotation.lat = annotation.coordinate.latitude
                 addAnnotation.long = annotation.coordinate.longitude
-                saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
-                // MARK: adds the annotation to the pinAnnotationArray
-                addPinAnnotationToSharedArray(pinAnnotation: addAnnotation)
-                // MARK: adds annotation to mapView
-                self.mapView.addAnnotation(annotation)
+                saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext) { (success) in
+                    if (success) {
+                        // MARK: adds the annotation to the pinAnnotationArray
+                        self.addPinAnnotationToSharedArray(pinAnnotation: addAnnotation)
+                        // MARK: adds annotation to mapView
+                        self.mapView.addAnnotation(annotation)
+                    }
+                }
             }
         }
     }
@@ -231,10 +239,18 @@ extension MainMapViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         let annotation = MKPointAnnotation()
         annotation.coordinate = userLocation.coordinate
-        mapView.addAnnotation(annotation)
-        
-        
+//        print("location coordinates: long:\(annotation.coordinate.latitude), long:\(annotation.coordinate.longitude)")
+        let addAnnotation = PinAnnotation(context: delegate.coreDataStack.viewContext)
+        addAnnotation.lat = annotation.coordinate.latitude
+        addAnnotation.long = annotation.coordinate.longitude
+        saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext) { (success) in
+            if (success) {
+                self.mapView.addAnnotation(annotation)
+                self.addPinAnnotationToSharedArray(pinAnnotation: addAnnotation)
+            }
+        }
     }
+    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error:\(error.localizedDescription)")
@@ -317,7 +333,11 @@ extension MainMapViewController {
                 delegate.coreDataStack.viewContext.delete(result as! NSManagedObject)
             }
             // MARK: The functionality saves the NSManagedObjectContext
-            saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext)
+            saveChangesToManagedObjectContext(context: delegate.coreDataStack.viewContext) { (success) in
+                if (success) {
+                    print("Deletion of items from the NSManagedObjectContext was successful.")
+                }
+            }
         }
     }
     
@@ -340,11 +360,13 @@ extension MainMapViewController {
         }
     }
     
-    func saveChangesToManagedObjectContext(context:NSManagedObjectContext) {
+    func saveChangesToManagedObjectContext(context:NSManagedObjectContext, completion:@escaping (_ success:Bool) -> ()) {
         do {
             try context.save()
+            completion(true)
         } catch {
             print("error:\(error.localizedDescription)")
+            completion(false)
         }
     }
 }
