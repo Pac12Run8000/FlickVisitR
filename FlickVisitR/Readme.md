@@ -27,6 +27,8 @@ How to use FlickVisitR
 6. Once the pin is dropped in the location designated, you can click on it and see images from that location.
 <img src="images/image_8.png" height="400">
 Moreover, at the bottom of the tabbar there is a map tab and a list tab. The list tab display a list of locations that are on the map. In order to see what the locations are, you can tap on a cell and see a close-up view of the location.
+
+
 License
 ------
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
