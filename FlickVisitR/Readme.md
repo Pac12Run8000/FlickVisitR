@@ -24,7 +24,9 @@ How to use FlickVisitR
 5. If you click on the plus button "+", you will navigate to a controller where you can enter an address and once you click the done button, you will be returned to the map and a pin will be dropped on the location that correlates to the address that you entered.
 <img src="images/image_6.png" height="400">
 <img src="images/image_7.png" height="400">
-
+6. Once the pin is dropped in the location designated, you can click on it and see images from that location.
+<img src="images/image_8.png" height="400">
+Moreover, at the bottom of the tabbar there is a map tab and a list tab. The list tab display a list of locations that are on the map. In order to see what the locations are, you can tap on a cell and see a close-up view of the location.
 License
 ------
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
