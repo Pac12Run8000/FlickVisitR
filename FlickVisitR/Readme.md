@@ -19,6 +19,11 @@ How to use FlickVisitR
 <img src="images/image_2.png" height="400">
 3. Click on the pin and you can see images from the location on the map.
 <img src="images/image_3.png" height="400">
+4. If you tap the refresh button, you can see more images from this location.
+<img src="images/image_4.png" height="400">
+5. If you click on the plus button "+", you will navigate to a controller where you can enter an address and once you click the done button, you will be returned to the map and a pin will be dropped on the location that correlates to the address that you entered.
+<img src="images/image_6.png" height="400">
+<img src="images/image_7.png" height="400">
 
 License
 ------
