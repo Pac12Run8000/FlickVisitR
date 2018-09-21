@@ -113,7 +113,6 @@ extension ImagesCollectionViewController {
                 DispatchQueue.global(qos: .userInitiated).async { () -> Void in
                     // MARK: Prevent a nil value that causes a fatal crash
                     if let pinImages = pinImages {
-//                        self.arrayForCollectionView = pinImages
                         CoreDataStack.sharedInstance().pinImageArray = pinImages
                     }
                     DispatchQueue.main.async {
@@ -121,8 +120,31 @@ extension ImagesCollectionViewController {
                     }
                 }
                 
+            } else {
+                print("Here is the error:\(String(describing: error!))")
+                if let error = error {
+                    self.alertForAPIError(errorMessage: error, paramArray: paramArray)
+                }
             }
+            
         }
+    }
+}
+
+
+// MARK: This is the alertController for the API call error
+extension ImagesCollectionViewController {
+    
+    func alertForAPIError(errorMessage:String, paramArray:[String:AnyObject]) {
+            let alertError = UIAlertController(title: "Alert Message", message: "\(String(describing: errorMessage))", preferredStyle: .alert)
+            alertError.addAction(UIAlertAction(title: "Try again.", style: .default, handler: { (action) in
+                self.populateArrayForCollectionView(paramArray: paramArray)
+                alertError.dismiss(animated: true, completion: nil)
+            }))
+            alertError.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                alertError.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alertError, animated: true, completion: nil)
     }
 }
 

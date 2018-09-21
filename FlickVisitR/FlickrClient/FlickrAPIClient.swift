@@ -12,14 +12,16 @@ class FlickrAPIClient: NSObject {
    
     var session = URLSession.shared
     
+    
     func taskForGetPhotos(_ params:[String:AnyObject], completionHandlerForTask:@escaping (_ data:Data?,_ error:Error?) -> ()) {
 
         let url = buildURLFromParameters(params)
         let urlRequest = URLRequest(url: url)
+        session = setDefaultTimeoutForConfiguration()
         
         let task = session.dataTask(with: urlRequest) { (data, response, error) in
             if (error != nil) {
-                print("There was an error:\(String(describing: error?.localizedDescription))")
+//                print("There was an error:\(String(describing: error?.localizedDescription))")
                 completionHandlerForTask(nil, error)
                 return
             }
@@ -79,8 +81,8 @@ extension FlickrAPIClient {
     // MARK:function used to configure the URL Session
     func setDefaultTimeoutForConfiguration() -> URLSession {
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 10.0
-        sessionConfig.timeoutIntervalForResource = 10.0
+        sessionConfig.timeoutIntervalForRequest = 15.0
+        sessionConfig.timeoutIntervalForResource = 15.0
         
         return URLSession(configuration: sessionConfig)
     }
