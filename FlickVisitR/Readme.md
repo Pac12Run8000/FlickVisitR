@@ -13,9 +13,12 @@ https://github.com/Pac12Run8000/FlickVisitR
 
 How to use FlickVisitR
 ======
-1. When you start up the application, you will see a tableView. If you go all the way to the bottom, you can see the tabs of a tabbar controller. You can select from either a MapView or a TableView.
+1. When you start up the application, you will see a Map. If you go all the way to the bottom, you can see the tabs of a tabbar controller. You can select from either a MapView or a TableView.
 <img src="images/image_1.png" height="400">
-
+2. If you click and hold on the map, a pin will be added to that map surface. 
+<img src="images/image_2.png" height="400">
+3. Click on the pin and you can see images from the location on the map.
+<img src="images/image_3.png" height="400">
 
 License
 ------
