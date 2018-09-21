@@ -13,7 +13,8 @@ https://github.com/Pac12Run8000/FlickVisitR
 
 How to use FlickVisitR
 ======
-1. When you start up the application, you will see a tableView. If you go all the way to the bottom, you can see the tabs of a tabbar controller. You can select either a collectionView or a tableView. 
+1. When you start up the application, you will see a tableView. If you go all the way to the bottom, you can see the tabs of a tabbar controller. You can select from either a MapView or a TableView.
+<img src="images/image_1.png" height="400">
 
 
 License
