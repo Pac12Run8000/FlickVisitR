@@ -51,6 +51,9 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: With the new updates to xCode this functionality is depricated
+        findLocationOutlet.isEnabled = false
+        
         mapView.delegate = self
         gestureRecognizerFunctionality()
         // MARK: As the name states, this function sets up retrieveing the coordinates based on userlocation.
