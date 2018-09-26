@@ -52,7 +52,7 @@ class MainMapViewController: UIViewController, AnnotationTypeViewControllerDeleg
         super.viewDidLoad()
         
         // MARK: With the new updates to xCode this functionality is depricated
-        findLocationOutlet.isEnabled = false
+//        findLocationOutlet.isEnabled = false
         
         mapView.delegate = self
         gestureRecognizerFunctionality()
@@ -237,7 +237,7 @@ extension MainMapViewController:MKMapViewDelegate {
 extension MainMapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+//        print("location:\(locations.count)")
         let userLocation = locations[0] as CLLocation
         locationManager.stopUpdatingLocation()
         let annotation = MKPointAnnotation()
