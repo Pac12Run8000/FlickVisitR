@@ -1,4 +1,4 @@
-#  TrippNmemes
+#  FlickVisitR
 Licensing information: Read License
 
 Author and Contributors List
